@@ -1,0 +1,427 @@
+module Program
+
+imports Common
+imports KBuiltinsBasic
+exports
+
+context-free syntax
+context-free priorities
+{
+    "notBool" Bool -> Bool {cons("Bool1276Syn")}
+} > {
+    Bool "andBool" Bool -> Bool {left, cons("Bool1363Syn")}
+    K "andThenBool" K -> Bool {left, cons("Bool1582Syn")}
+} > {
+    Bool "xorBool" Bool -> Bool {left, cons("Bool184Syn")}
+} > {
+    Bool "orBool" Bool -> Bool {left, cons("Bool1570Syn")}
+    K "orElseBool" K -> Bool {left, cons("Bool1359Syn")}
+} > {
+    Bool "impliesBool" Bool -> Bool {left, cons("Bool1666Syn")}
+} > { left:
+    Bool "==Bool" Bool -> Bool {left, cons("Bool1287Syn")}
+    Bool "=/=Bool" Bool -> Bool {left, cons("Bool1622Syn")}
+}
+
+context-free priorities
+{
+    Int -> AExp {}
+    Id -> AExp {}
+    "++" InsertDzAExp "%" AExp -> AExp {cons("AExp1478Syn")}
+    AExp "/" AExp -> AExp {left, cons("AExp1386Syn")}
+    AExp "*" AExp -> AExp {left, cons("AExp1324Syn")}
+    AExp "%" AExp -> AExp {left, cons("AExp193Syn")}
+} > {
+    AExp "+" AExp -> AExp {left, cons("AExp1440Syn")}
+} > {
+    AExp "-" AExp -> AExp {left, cons("AExp1409Syn")}
+}
+
+context-free priorities
+{
+    Bool -> BExp {}
+    AExp "<=" AExp -> BExp {cons("BExp1684Syn")}
+    "!" BExp -> BExp {cons("BExp187Syn")}
+    AExp "<" AExp -> BExp {cons("BExp1490Syn")}
+    AExp "==" AExp -> BExp {cons("BExp1390Syn")}
+    AExp "!=" AExp -> BExp {cons("BExp1235Syn")}
+} > {
+    BExp "&&" BExp -> BExp {left, cons("BExp1605Syn")}
+}
+
+context-free priorities
+{
+    DdefStmt -> OSEKStmt {}
+    DdeclStmt -> OSEKStmt {}
+    Stmt -> OSEKStmt {}
+    APIStmt -> OSEKStmt {}
+} > {
+    OSEKStmt OSEKStmt -> OSEKStmt {right, cons("OSEKStmt1254Syn")}
+}
+
+context-free start-symbols
+AExp Action CounterProStmts AlarmProStmts AlarmProperties CounterProStmt APIStmt ModelCheckResult TaskProStmt String DdefStmt Int DzLtlFormula Stmt EventProStmt ListId ResProperty Bool OSEKStmt DdeclStmt DzInt ResProStmt DzString DzBool DzModelCheckerState TaskProStmts LtlFormula BExp Prop AlarmProStmt MaskType ModelCheckerState DzModelCheckResult OSEK KLabel Float DzProp AlarmProperty Block Id TaskState SchedValue DzFloat K
+context-free syntax
+    "COUNTER" InsertDzId "{" InsertDzCounterProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1246Syn")}
+    DzString -> String {}
+    "while" "(" InsertDzBExp ")" Block -> Stmt {cons("Stmt1633Syn")}
+    "GetAlarmBase" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1394Syn")}
+    "SetAbsAlarm" "(" InsertDzId "," InsertDzInt "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt1249Syn")}
+    "STANDARD" -> ResProperty {cons("ResProperty1475Syn")}
+    "GetAlarm" "(" InsertDzId "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt15Syn")}
+    "DeclareResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1396Syn")}
+    {AlarmProperty ""}* -> AlarmProperties {cons("AlarmProperties1ListSyn")}
+    "SCHEDULE" "=" InsertDzSchedValue ";" -> TaskProStmt {cons("TaskProStmt16Syn")}
+    DzFloat -> Float {}
+    "WaitEvent" "(" InsertDzListId ")" ";" -> APIStmt {cons("APIStmt1322Syn")}
+    "ActivateTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1482Syn")}
+    "SetRelAlarm" "(" InsertDzId "," InsertDzInt "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt1406Syn")}
+    "DeclareEvent" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1407Syn")}
+    DzModelCheckResult -> ModelCheckResult {}
+    "NON" -> SchedValue {cons("SchedValue1420Syn")}
+    "AUTOSTART" "=" InsertDzBool ";" -> TaskProStmt {cons("TaskProStmt1422Syn")}
+    Int -> MaskType {}
+    "DeclareTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1649Syn")}
+    {AlarmProStmt ""}* -> AlarmProStmts {cons("AlarmProStmts1ListSyn")}
+    "ACTIVATETASK" "{" "TASK" "=" InsertDzId ";" "}" -> Action {cons("Action1488Syn")}
+    "COUNTER" "=" InsertDzId ";" -> AlarmProStmt {cons("AlarmProStmt1495Syn")}
+    DzBool -> Bool {}
+    "int" InsertDzId ";" -> Stmt {cons("Stmt1427Syn")}
+    "ready" -> TaskState {cons("TaskState132Syn")}
+    "MASK" "=" InsertDzMaskType ";" -> EventProStmt {cons("EventProStmt1263Syn")}
+    "modelCheck" "(" InsertDzModelCheckerState "," InsertDzLtlFormula ")" -> ModelCheckResult {cons("ModelCheckResult1264Syn")}
+    Block -> Stmt {}
+    "AUTOSTART" "=" "false" ";" -> AlarmProStmt {cons("AlarmProStmt1330Syn")}
+    OSEKStmt -> OSEK {}
+    "wait" "(" InsertDzId "," InsertDzId ")" -> Prop {cons("Prop136Syn")}
+    "states" "(" InsertDzBag "," InsertDzId ")" -> TaskState {cons("TaskState1268Syn")}
+    DzProp -> Prop {}
+    "GetTaskID" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt138Syn")}
+    "MINICYCLE" "=" InsertDzInt ";" -> CounterProStmt {cons("CounterProStmt1272Syn")}
+    "succession" "(" InsertDzTaskState "," InsertDzId ")" -> Prop {cons("Prop1337Syn")}
+    LtlFormula -> OSEK {}
+    "CancelAlarm" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1657Syn")}
+    "ReleaseResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1200Syn")}
+    "DeclareAlarm" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1436Syn")}
+    "{" InsertDzOSEKStmt "}" -> Block {cons("Block1437Syn")}
+    "(" InsertDzBExp ")" -> BExp {cons("BExp1Bracket")}
+    "FULL" -> SchedValue {cons("SchedValue1339Syn")}
+    "ALARMTIME" "=" InsertDzInt ";" -> AlarmProperty {cons("AlarmProperty1530Syn")}
+    "state" "(" InsertDzBag ")" -> Id {cons("Id1532Syn")}
+    "EVENT" "=" InsertDzId ";" -> TaskProStmt {cons("TaskProStmt1207Syn")}
+    "(" InsertDzAExp ")" -> AExp {cons("AExp1Bracket")}
+    "SETEVENT" "{" "TASK" "=" InsertDzId ";" "EVENT" "=" InsertDzId ";" "}" -> Action {cons("Action1444Syn")}
+    DzInt -> Int {}
+    Prop -> LtlFormula {}
+    "RESOURCE" InsertDzId "{" InsertDzResProStmt "}" ";" -> DdeclStmt {cons("DdeclStmt1220Syn")}
+    "ChainTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1589Syn")}
+    "CYCLETIME" "=" InsertDzInt ";" -> AlarmProperty {cons("AlarmProperty150Syn")}
+    "ALARM" InsertDzId "{" InsertDzAlarmProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1354Syn")}
+    "TASK" InsertDzId "{" InsertDzTaskProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1223Syn")}
+    "running" -> TaskState {cons("TaskState1355Syn")}
+    {Id "|"}* -> ListId {cons("ListId1ListSyn")}
+    "AUTO" -> MaskType {cons("MaskType1539Syn")}
+    "TimeInterval" "=" InsertDzAExp ";" -> Stmt {cons("Stmt1540Syn")}
+    Id "=" InsertDzAExp ";" -> Stmt {cons("Stmt1284Syn")}
+    "MAXALLOWEDVALUE" "=" InsertDzInt ";" -> CounterProStmt {cons("CounterProStmt1670Syn")}
+    "suspend" -> TaskState {cons("TaskState1594Syn")}
+    "API" "(" InsertDzBag "," InsertDzId ")" -> Id {cons("Id1225Syn")}
+    "if" "(" InsertDzBExp ")" Block -> Stmt {cons("Stmt156Syn")}
+    "countvalue" "(" InsertDzInt ")" -> Prop {cons("Prop1285Syn")}
+    "EVENT" InsertDzId "{" InsertDzEventProStmt "}" ";" -> DdeclStmt {cons("DdeclStmt1450Syn")}
+    "Schedule" "(" ")" ";" -> APIStmt {cons("APIStmt1452Syn")}
+    "{" "}" -> Block {cons("Block1672Syn")}
+    "RESOURCE" "=" InsertDzId ";" -> TaskProStmt {cons("TaskProStmt1599Syn")}
+    "LINKEDRESOURCE" -> ResProperty {cons("ResProperty1675Syn")}
+    "waiting" -> TaskState {cons("TaskState158Syn")}
+    "INTERNAL" -> ResProperty {cons("ResProperty1369Syn")}
+    "SetEvent" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1456Syn")}
+    "GetTaskState" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1293Syn")}
+    "PRIORITY" "=" InsertDzInt ";" -> TaskProStmt {cons("TaskProStmt1457Syn")}
+    "taskstate" "(" InsertDzId ")" -> Prop {cons("Prop1458Syn")}
+    DzLtlFormula -> LtlFormula {}
+    "GetResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1294Syn")}
+    "count" "(" InsertDzBag ")" -> Int {cons("Int1549Syn")}
+    "ACTION" "=" InsertDzAction ";" -> AlarmProStmt {cons("AlarmProStmt1296Syn")}
+    "TASK" InsertDzId "{" InsertDzOSEKStmt "}" ";" -> DdefStmt {cons("DdefStmt1459Syn")}
+    "TerminateTask" "(" ")" ";" -> APIStmt {cons("APIStmt163Syn")}
+    {CounterProStmt ""}* -> CounterProStmts {cons("CounterProStmts1ListSyn")}
+    Bag "|=Ltl" K -> Bool {cons("Bool1376Syn")}
+    "ACTIVATION" "=" InsertDzInt ";" -> TaskProStmt {cons("TaskProStmt1238Syn")}
+    "event" "(" InsertDzBag "," InsertDzId ")" -> Id {cons("Id1683Syn")}
+    "set" "(" InsertDzId "," InsertDzId ")" -> Prop {cons("Prop1383Syn")}
+    "if" "(" InsertDzBExp ")" InsertDzBlock "else" Block -> Stmt {cons("Stmt1685Syn")}
+    {TaskProStmt ""}* -> TaskProStmts {cons("TaskProStmts1ListSyn")}
+    "ClearEvent" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1299Syn")}
+    "eq" "(" InsertDzId "," InsertDzInt ")" -> Prop {cons("Prop1468Syn")}
+    "AUTOSTART" "=" "true" "{" InsertDzAlarmProperties "}" ";" -> AlarmProStmt {cons("AlarmProStmt1387Syn")}
+    "RESOURCEPROPERTY" "=" InsertDzResProperty ";" -> ResProStmt {cons("ResProStmt173Syn")}
+    DzModelCheckerState -> ModelCheckerState {}
+    AExp -> InsertDzAExp
+    CounterProStmts -> InsertDzCounterProStmts
+    Action -> InsertDzAction
+    AlarmProStmts -> InsertDzAlarmProStmts
+    TaskProStmts -> InsertDzTaskProStmts
+    AlarmProperties -> InsertDzAlarmProperties
+    BExp -> InsertDzBExp
+    LtlFormula -> InsertDzLtlFormula
+    MaskType -> InsertDzMaskType
+    Bag -> InsertDzBag
+    ModelCheckerState -> InsertDzModelCheckerState
+    Int -> InsertDzInt
+    EventProStmt -> InsertDzEventProStmt
+    ListId -> InsertDzListId
+    ResProperty -> InsertDzResProperty
+    Bool -> InsertDzBool
+    Block -> InsertDzBlock
+    OSEKStmt -> InsertDzOSEKStmt
+    Id -> InsertDzId
+    TaskState -> InsertDzTaskState
+    SchedValue -> InsertDzSchedValue
+    ResProStmt -> InsertDzResProStmt
+
+
+    DzDzString        -> DzString    {cons("DzString1Const")}
+    DzDzBool        -> DzBool    {cons("DzBool1Const")}
+    DzKLabel        -> KLabel    {cons("KLabel1Const")}
+    DzDzInt        -> DzInt    {cons("DzInt1Const")}
+    DzDzId        -> DzId    {cons("DzId1Const")}
+    DzDzLtlFormula        -> DzLtlFormula    {cons("DzLtlFormula1Const")}
+    DzDzFloat        -> DzFloat    {cons("DzFloat1Const")}
+
+
+
+%% start symbols subsorts
+    KItem        -> K
+    AExp        -> K
+    Action        -> K
+    CounterProStmt        -> K
+    APIStmt        -> K
+    ModelCheckResult        -> K
+    TaskProStmt        -> K
+    String        -> K
+    DdefStmt        -> K
+    Int        -> K
+    DzLtlFormula        -> K
+    Stmt        -> K
+    EventProStmt        -> K
+    ResProperty        -> K
+    Bool        -> K
+    OSEKStmt        -> K
+    DdeclStmt        -> K
+    DzInt        -> K
+    ResProStmt        -> K
+    DzString        -> K
+    DzBool        -> K
+    DzModelCheckerState        -> K
+    LtlFormula        -> K
+    BExp        -> K
+    Prop        -> K
+    AlarmProStmt        -> K
+    MaskType        -> K
+    ModelCheckerState        -> K
+    DzModelCheckResult        -> K
+    OSEK        -> K
+    Float        -> K
+    DzProp        -> K
+    AlarmProperty        -> K
+    Block        -> K
+    Id        -> K
+    TaskState        -> K
+    SchedValue        -> K
+    DzFloat        -> K
+lexical syntax
+    "Infinity" -> DzDzFloat
+    "FalseLtl" -> DzDzLtlFormula
+    "true" -> DzDzBool
+    "'#andBool" -> DzKLabel
+    "TrueLtl" -> DzDzLtlFormula
+    "false" -> DzDzBool
+    "NaN" -> DzDzFloat
+
+
+    "ACTIVATETASK" -> IdDz {reject}
+    "SetAbsAlarm" -> IdDz {reject}
+    "else" -> IdDz {reject}
+    "INTERNAL" -> IdDz {reject}
+    "state" -> IdDz {reject}
+    "if" -> IdDz {reject}
+    "SETEVENT" -> IdDz {reject}
+    "GetAlarmBase" -> IdDz {reject}
+    "GetTaskState" -> IdDz {reject}
+    "DeclareResource" -> IdDz {reject}
+    "GetTaskID" -> IdDz {reject}
+    "COUNTER" -> IdDz {reject}
+    "wait" -> IdDz {reject}
+    "ReleaseResource" -> IdDz {reject}
+    "DeclareTask" -> IdDz {reject}
+    "countvalue" -> IdDz {reject}
+    "event" -> IdDz {reject}
+    "xorBool" -> IdDz {reject}
+    "STANDARD" -> IdDz {reject}
+    "RESOURCE" -> IdDz {reject}
+    "succession" -> IdDz {reject}
+    "set" -> IdDz {reject}
+    "Infinity" -> IdDz {reject}
+    "RESOURCEPROPERTY" -> IdDz {reject}
+    "impliesBool" -> IdDz {reject}
+    "FalseLtl" -> IdDz {reject}
+    "andThenBool" -> IdDz {reject}
+    "ALARMTIME" -> IdDz {reject}
+    "ACTIVATION" -> IdDz {reject}
+    "notBool" -> IdDz {reject}
+    "CYCLETIME" -> IdDz {reject}
+    "ALARM" -> IdDz {reject}
+    "LINKEDRESOURCE" -> IdDz {reject}
+    "PRIORITY" -> IdDz {reject}
+    "GetResource" -> IdDz {reject}
+    "while" -> IdDz {reject}
+    "EVENT" -> IdDz {reject}
+    "TerminateTask" -> IdDz {reject}
+    "DeclareAlarm" -> IdDz {reject}
+    "MINICYCLE" -> IdDz {reject}
+    "DeclareEvent" -> IdDz {reject}
+    "SCHEDULE" -> IdDz {reject}
+    "suspend" -> IdDz {reject}
+    "TASK" -> IdDz {reject}
+    "count" -> IdDz {reject}
+    "NON" -> IdDz {reject}
+    "eq" -> IdDz {reject}
+    "ActivateTask" -> IdDz {reject}
+    "FULL" -> IdDz {reject}
+    "MAXALLOWEDVALUE" -> IdDz {reject}
+    "AUTO" -> IdDz {reject}
+    "SetRelAlarm" -> IdDz {reject}
+    "SetEvent" -> IdDz {reject}
+    "modelCheck" -> IdDz {reject}
+    "true" -> IdDz {reject}
+    "GetAlarm" -> IdDz {reject}
+    "orBool" -> IdDz {reject}
+    "ChainTask" -> IdDz {reject}
+    "AUTOSTART" -> IdDz {reject}
+    "waiting" -> IdDz {reject}
+    "CancelAlarm" -> IdDz {reject}
+    "orElseBool" -> IdDz {reject}
+    "taskstate" -> IdDz {reject}
+    "MASK" -> IdDz {reject}
+    "states" -> IdDz {reject}
+    "running" -> IdDz {reject}
+    "ready" -> IdDz {reject}
+    "NaN" -> IdDz {reject}
+    "ClearEvent" -> IdDz {reject}
+    "TimeInterval" -> IdDz {reject}
+    "TrueLtl" -> IdDz {reject}
+    "false" -> IdDz {reject}
+    "int" -> IdDz {reject}
+    "WaitEvent" -> IdDz {reject}
+    "andBool" -> IdDz {reject}
+    "ACTION" -> IdDz {reject}
+    "Schedule" -> IdDz {reject}
+    "API" -> IdDz {reject}
+
+lexical restrictions
+    %% follow restrictions
+    "AUTO" -/- [S].[T].[A].[R].[T]
+    "ALARM" -/- [T].[I].[M].[E]
+    "RESOURCE" -/- [P].[R].[O].[P].[E].[R].[T].[Y]
+    "GetAlarm" -/- [B].[a].[s].[e]
+    "==" -/- [B].[o].[o].[l]
+
+
+lexical syntax
+    [\-\+]? [0-9]+ -> DzIntDz
+    [\+\-]?[0-9]+"."[0-9]+([eE][\+\-]?[0-9]+)?([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    [\+\-]?"Infinity"([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    "Infinity" -> DzFloatDz {reject}
+    "NaN"([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    "NaN" -> DzFloatDz {reject}
+    "\"" ((~[\"\n\r\\]) | (((([\\][nrtf\"\\]) | ([\\][x][0-9a-fA-F][0-9a-fA-F])) | ([\\][u][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])) | ([\\][U][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])))* "\"" -> DzStringDz
+    [A-Za-z\_][A-Za-z0-9\_]* -> IdDz
+    "ACTIVATETASK" -> IdDz {reject}
+    "SetAbsAlarm" -> IdDz {reject}
+    "else" -> IdDz {reject}
+    "INTERNAL" -> IdDz {reject}
+    "state" -> IdDz {reject}
+    "if" -> IdDz {reject}
+    "SETEVENT" -> IdDz {reject}
+    "GetAlarmBase" -> IdDz {reject}
+    "GetTaskState" -> IdDz {reject}
+    "DeclareResource" -> IdDz {reject}
+    "GetTaskID" -> IdDz {reject}
+    "COUNTER" -> IdDz {reject}
+    "wait" -> IdDz {reject}
+    "ReleaseResource" -> IdDz {reject}
+    "DeclareTask" -> IdDz {reject}
+    "countvalue" -> IdDz {reject}
+    "event" -> IdDz {reject}
+    "xorBool" -> IdDz {reject}
+    "STANDARD" -> IdDz {reject}
+    "RESOURCE" -> IdDz {reject}
+    "succession" -> IdDz {reject}
+    "set" -> IdDz {reject}
+    "Infinity" -> IdDz {reject}
+    "RESOURCEPROPERTY" -> IdDz {reject}
+    "impliesBool" -> IdDz {reject}
+    "FalseLtl" -> IdDz {reject}
+    "andThenBool" -> IdDz {reject}
+    "ALARMTIME" -> IdDz {reject}
+    "ACTIVATION" -> IdDz {reject}
+    "notBool" -> IdDz {reject}
+    "CYCLETIME" -> IdDz {reject}
+    "ALARM" -> IdDz {reject}
+    "LINKEDRESOURCE" -> IdDz {reject}
+    "PRIORITY" -> IdDz {reject}
+    "GetResource" -> IdDz {reject}
+    "while" -> IdDz {reject}
+    "EVENT" -> IdDz {reject}
+    "TerminateTask" -> IdDz {reject}
+    "DeclareAlarm" -> IdDz {reject}
+    "MINICYCLE" -> IdDz {reject}
+    "DeclareEvent" -> IdDz {reject}
+    "SCHEDULE" -> IdDz {reject}
+    "suspend" -> IdDz {reject}
+    "TASK" -> IdDz {reject}
+    "count" -> IdDz {reject}
+    "NON" -> IdDz {reject}
+    "eq" -> IdDz {reject}
+    "ActivateTask" -> IdDz {reject}
+    "FULL" -> IdDz {reject}
+    "MAXALLOWEDVALUE" -> IdDz {reject}
+    "AUTO" -> IdDz {reject}
+    "SetRelAlarm" -> IdDz {reject}
+    "SetEvent" -> IdDz {reject}
+    "modelCheck" -> IdDz {reject}
+    "true" -> IdDz {reject}
+    "GetAlarm" -> IdDz {reject}
+    "orBool" -> IdDz {reject}
+    "ChainTask" -> IdDz {reject}
+    "AUTOSTART" -> IdDz {reject}
+    "waiting" -> IdDz {reject}
+    "CancelAlarm" -> IdDz {reject}
+    "orElseBool" -> IdDz {reject}
+    "taskstate" -> IdDz {reject}
+    "MASK" -> IdDz {reject}
+    "states" -> IdDz {reject}
+    "running" -> IdDz {reject}
+    "ready" -> IdDz {reject}
+    "NaN" -> IdDz {reject}
+    "ClearEvent" -> IdDz {reject}
+    "TimeInterval" -> IdDz {reject}
+    "TrueLtl" -> IdDz {reject}
+    "false" -> IdDz {reject}
+    "int" -> IdDz {reject}
+    "WaitEvent" -> IdDz {reject}
+    "andBool" -> IdDz {reject}
+    "ACTION" -> IdDz {reject}
+    "Schedule" -> IdDz {reject}
+    "API" -> IdDz {reject}
+context-free syntax
+    DzStringDz -> DzString {cons("DzString1Const")}
+    IdDz -> Id {cons("Id1Const")}
+    DzIntDz -> DzInt {cons("DzInt1Const")}
+    DzFloatDz -> DzFloat {cons("DzFloat1Const")}
+
+
+context-free restrictions
+    DzInt -/-  [0-9]
+    Id -/- [A-Za-z0-9\_]

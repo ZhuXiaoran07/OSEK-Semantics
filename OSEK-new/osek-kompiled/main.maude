@@ -1,0 +1,8 @@
+load "/cygdrive/C/Users/zxr/Desktop/k-distribution-3.5.2/k/lib/maude/lib/k-prelude"
+load "base.maude"
+load "builtins.maude"
+mod OSEK is 
+  including OSEK-BASE .
+  including OSEK-BUILTINS .
+eq mainModule = 'OSEK .
+endm

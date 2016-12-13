@@ -1,0 +1,97 @@
+EVENT evt { 
+   MASK = AUTO;
+}; 
+
+RESOURCE BUFF{ 
+  RESOURCEPROPERTY = STANDARD;
+};
+
+
+TASK MT { 
+  PRIORITY = 4; 
+  AUTOSTART = false;
+  SCHEDULE = FULL;
+};
+
+TASK RT{ 
+  PRIORITY = 6; 
+  AUTOSTART = true;
+  SCHEDULE = FULL;
+}; 
+
+
+TASK ST{ 
+  PRIORITY = 8; 
+  AUTOSTART = false; 
+  SCHEDULE = FULL; 
+  EVENT = evt;
+  RESOURCE = BUFF;
+}; 
+
+TASK PT{ 
+  PRIORITY = 10; 
+  AUTOSTART = false; 
+  SCHEDULE = FULL;
+  RESOURCE = BUFF;
+}; 
+
+
+int data;
+int buff; 
+
+TASK MT{ 
+   ChainTask(RT);
+   //TerminateTask();
+}; 
+
+COUNTER T {
+MAXALLOWEDVALUE = 127;
+//MINICYCLE = 7;
+};
+
+ALARM WakeTaskA {
+  COUNTER=T;
+  ACTION=ACTIVATETASK{
+  TASK= RT;
+  };
+  AUTOSTART=true {
+  ALARMTIME=10;
+  CYCLETIME=20;
+  };
+};
+
+//Terminate
+TASK RT{
+  //get a data from tire 
+  ActivateTask(ST);
+  SetAbsAlarm(WakeTaskA, 10, 20);
+  if(data==0) {
+    ActivateTask(PT); 
+    SetEvent(ST,evt);
+  }
+  TerminateTask();
+}; 
+
+TASK ST{ 
+  WaitEvent(evt);
+  GetResource(BUFF);
+  buff=data; 
+  ReleaseResource(BUFF);
+  ChainTask(PT);
+};
+
+TASK PT{
+  //Read data from buff 
+  //GetResource(BUFF); 
+  // process data
+  buff=0; 
+  //ReleaseResource(BUFF);
+  TerminateTask();
+}; 
+
+
+
+
+
+//  krun -c TCG=false tire.osek
+

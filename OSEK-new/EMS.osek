@@ -1,0 +1,135 @@
+
+
+/*@ We got an application about Engine Management System of automobile from Puhua company. This application mainly focuses on accelerator pedals, electronic throttle controller and ECU. Five tasks are involved in this application. The SystemInit task can be autostarted. It is used to initialize the system and set alarms for this system. Besides, the only task EMS_Task_10ms is activated by the SystemInit task.*/
+
+
+
+EVENT Adap_Event { 
+   MASK = 1;
+}; 
+
+TASK EMS_Adap_Task_10ms{
+  
+  PRIORITY = 1; 
+  AUTOSTART = false; 
+  SCHEDULE = NON; 
+  EVENT = Adap_Event;
+  //RESOURCE = BUFF;
+  ACTIVATION=1;
+};
+
+
+TASK EMS_Task_10ms{
+  
+  PRIORITY = 3; 
+  AUTOSTART = false; 
+  SCHEDULE = NON; 
+  EVENT = Adap_Event;
+ // RESOURCE = BUFF;
+  ACTIVATION=1;
+};
+
+TASK EMS_Task_100ms{
+  
+  PRIORITY = 2; 
+  AUTOSTART = false; 
+  SCHEDULE = NON; 
+  EVENT = Adap_Event;
+ // RESOURCE = BUFF;
+  ACTIVATION=1;
+};
+
+TASK Task_10ms{
+  
+  PRIORITY=4;
+  ACTIVATION=1;
+  SCHEDULE=FULL;
+  AUTOSTART=false;
+  EVENT = Adap_Event;
+};
+
+TASK SystemInit{
+  PRIORITY=0;
+  ACTIVATION=1;
+  SCHEDULE=FULL;
+  AUTOSTART=true;
+  EVENT = Adap_Event;
+
+  
+};
+
+COUNTER osCounter {
+MAXALLOWEDVALUE = 65535;
+//MINICYCLE = 1;
+};
+
+ALARM AL_EMS_Task_100ms {
+  COUNTER=osCounter;
+  ACTION=ACTIVATETASK{
+  TASK= EMS_Task_100ms;
+  };
+  AUTOSTART=false;
+};
+
+ALARM AL_EMS_Task_10ms {
+  COUNTER=osCounter;
+  ACTION=ACTIVATETASK{
+  TASK= EMS_Task_10ms;
+  };
+  AUTOSTART=false; 
+};
+
+ALARM AL_Task_10ms {
+  COUNTER=osCounter;
+  ACTION=ACTIVATETASK{
+  TASK= Task_10ms;
+  };
+  AUTOSTART=false; 
+};
+
+
+int a;
+TASK EMS_Adap_Task_10ms{
+a=0;
+	
+ while(a<4){
+ WaitEvent(Adap_Event);
+ ClearEvent(Adap_Event);
+ a=a+1;
+ }
+
+ TerminateTask();
+};
+
+TASK EMS_Task_100ms{
+
+ //TimeInterval = 1;
+ TerminateTask(); 
+};
+
+TASK EMS_Task_10ms{
+
+ TimeInterval = 3;
+ TerminateTask(); 
+};
+
+TASK Task_10ms{
+	
+  //TimeInterval = 1;    
+  SetEvent(EMS_Adap_Task_10ms, Adap_Event);  
+
+   TerminateTask(); 
+};
+
+TASK SystemInit{
+	
+	SetRelAlarm(AL_Task_10ms,6 , 10);
+	SetRelAlarm(AL_EMS_Task_100ms, 7, 100);
+	SetRelAlarm(AL_EMS_Task_10ms, 8, 10);
+	 ActivateTask(EMS_Adap_Task_10ms);	
+
+	TerminateTask();
+};
+
+
+

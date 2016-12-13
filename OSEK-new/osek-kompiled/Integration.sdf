@@ -1,0 +1,1902 @@
+module Integration
+
+imports Common
+imports KTechnique
+imports KBuiltinsBasic
+
+imports Variables
+
+exports
+
+context-free syntax
+context-free priorities
+{
+    K "|->" K -> Map {cons("Map1449Syn")}
+} > {
+    Map Map -> Map {left, cons("Map1498Syn")}
+}
+
+context-free priorities
+{ left:
+    K "==K" K -> Bool {left, cons("Bool1373Syn")}
+    K "=/=K" K -> Bool {left, cons("Bool1463Syn")}
+}
+
+context-free priorities
+{
+    K "==K" K -> Bool {left, cons("Bool1373Syn")}
+    Bag "==Bag" Bag -> Bool {left, cons("Bool1423Syn")}
+    Bag "=/=Bag" Bag -> Bool {left, cons("Bool1252Syn")}
+    K "=/=K" K -> Bool {left, cons("Bool1463Syn")}
+} > {
+    Bool "impliesBool" Bool -> Bool {left, cons("Bool1666Syn")}
+    "notBool" Bool -> Bool {cons("Bool1276Syn")}
+    K "andThenBool" K -> Bool {left, cons("Bool1582Syn")}
+    Bool "orBool" Bool -> Bool {left, cons("Bool1570Syn")}
+    K "orElseBool" K -> Bool {left, cons("Bool1359Syn")}
+    Bool "xorBool" Bool -> Bool {left, cons("Bool184Syn")}
+    Bool "andBool" Bool -> Bool {left, cons("Bool1363Syn")}
+}
+
+context-free priorities
+{ left:
+    Bag "==Bag" Bag -> Bool {left, cons("Bool1423Syn")}
+    Bag "=/=Bag" Bag -> Bool {left, cons("Bool1252Syn")}
+}
+
+context-free priorities
+{
+    "~Int" Int -> Int {cons("Int198Syn")}
+} > { left:
+    Int "^Int" Int -> Int {left, cons("Int154Syn")}
+} > { left:
+    Int "*Int" Int -> Int {left, cons("Int1447Syn")}
+    Int "/Int" Int -> Int {left, cons("Int1477Syn")}
+    Int "%Int" Int -> Int {left, cons("Int1256Syn")}
+    Int "divInt" Int -> Int {left, cons("Int1308Syn")}
+    Int "modInt" Int -> Int {left, cons("Int1448Syn")}
+} > { left:
+    Int "+Int" Int -> Int {left, cons("Int1577Syn")}
+    Int "-Int" Int -> Int {left, cons("Int1229Syn")}
+} > { left:
+    Int ">>Int" Int -> Int {left, cons("Int185Syn")}
+    Int "<<Int" Int -> Int {left, cons("Int1505Syn")}
+} > { left:
+    Int "&Int" Int -> Int {left, cons("Int197Syn")}
+} > { left:
+    Int "xorInt" Int -> Int {left, cons("Int166Syn")}
+} > { left:
+    Int "|Int" Int -> Int {left, cons("Int165Syn")}
+}
+
+context-free priorities
+{
+    "--Float" Float -> Float {cons("Float1575Syn")}
+} > {
+    Float "^Float" Float -> Float {left, cons("Float17Syn")}
+} > {
+    Float "*Float" Float -> Float {left, cons("Float1489Syn")}
+    Float "/Float" Float -> Float {left, cons("Float149Syn")}
+    Float "%Float" Float -> Float {left, cons("Float1304Syn")}
+} > {
+    Float "+Float" Float -> Float {left, cons("Float1378Syn")}
+    Float "-Float" Float -> Float {left, cons("Float1576Syn")}
+}
+
+context-free priorities
+{
+    "notBool" Bool -> Bool {cons("Bool1276Syn")}
+} > {
+    Bool "andBool" Bool -> Bool {left, cons("Bool1363Syn")}
+    K "andThenBool" K -> Bool {left, cons("Bool1582Syn")}
+} > {
+    Bool "xorBool" Bool -> Bool {left, cons("Bool184Syn")}
+} > {
+    Bool "orBool" Bool -> Bool {left, cons("Bool1570Syn")}
+    K "orElseBool" K -> Bool {left, cons("Bool1359Syn")}
+} > {
+    Bool "impliesBool" Bool -> Bool {left, cons("Bool1666Syn")}
+} > { left:
+    Bool "==Bool" Bool -> Bool {left, cons("Bool1287Syn")}
+    Bool "=/=Bool" Bool -> Bool {left, cons("Bool1622Syn")}
+}
+
+context-free priorities
+{
+    Int -> AExp {}
+    Id -> AExp {}
+    "++" InsertDzAExp "%" AExp -> AExp {cons("AExp1478Syn")}
+    AExp "/" AExp -> AExp {left, cons("AExp1386Syn")}
+    AExp "*" AExp -> AExp {left, cons("AExp1324Syn")}
+    AExp "%" AExp -> AExp {left, cons("AExp193Syn")}
+} > {
+    AExp "+" AExp -> AExp {left, cons("AExp1440Syn")}
+} > {
+    AExp "-" AExp -> AExp {left, cons("AExp1409Syn")}
+}
+
+context-free priorities
+{
+    Bool -> BExp {}
+    AExp "<=" AExp -> BExp {cons("BExp1684Syn")}
+    ExclamationMarkDz BExp -> BExp {cons("BExp187Syn")}
+    AExp "<" AExp -> BExp {cons("BExp1490Syn")}
+    AExp "==" AExp -> BExp {cons("BExp1390Syn")}
+    AExp "!=" AExp -> BExp {cons("BExp1235Syn")}
+} > {
+    BExp "&&" BExp -> BExp {left, cons("BExp1605Syn")}
+}
+
+context-free priorities
+{
+    DdefStmt -> OSEKStmt {}
+    DdeclStmt -> OSEKStmt {}
+    Stmt -> OSEKStmt {}
+    APIStmt -> OSEKStmt {}
+} > {
+    OSEKStmt OSEKStmt -> OSEKStmt {right, cons("OSEKStmt1254Syn")}
+}
+
+context-free priorities
+{
+    Bool -> Fol {}
+    "notFol" Fol -> Fol {cons("Fol137Syn")}
+} > { left:
+    Fol "andFol" Fol -> Fol {left, cons("Fol1342Syn")}
+    Fol "orFol" Fol -> Fol {left, cons("Fol1338Syn")}
+} > { left:
+    "forall" InsertDzSet "." Fol -> Fol {left, cons("Fol1328Syn")}
+    "exists" InsertDzSet "." Fol -> Fol {left, cons("Fol1365Syn")}
+}
+
+%% subsorts 1
+context-free priorities
+{
+    Nat -> K
+    AExp -> K
+    CounterProStmts -> K
+    AlarmProStmts -> K
+    CounterProStmt -> K
+    ModelCheckResult -> K
+    LowerCase -> K
+    CamelCaseId -> K
+    String -> K
+    DdefStmt -> K
+    DzLtlFormula -> K
+    Bool -> K
+    Stream -> K
+    List -> K
+    DdeclStmt -> K
+    ResProStmt -> K
+    DzString -> K
+    DzBool -> K
+    DzModelCheckerState -> K
+    Fol -> K
+    LtlFormula -> K
+    Prop -> K
+    Actions -> K
+    AlarmProStmt -> K
+    MaskType -> K
+    DzModelCheckResult -> K
+    SysApi -> K
+    ListTaskPair -> K
+    OSEK -> K
+    Float -> K
+    DzProp -> K
+    Block -> K
+    Id -> K
+    Map -> K
+    SchedValue -> K
+    DzFloat -> K
+    Action -> K
+    Set -> K
+    Variable -> K
+    AlarmProperties -> K
+    MInt -> K
+    APIStmt -> K
+    TaskProStmt -> K
+    Int -> K
+    Stmt -> K
+    EventProStmt -> K
+    Signal -> K
+    ListId -> K
+    ResProperty -> K
+    ErrorType -> K
+    Char -> K
+    OSEKStmt -> K
+    TCPAnswer -> K
+    DzInt -> K
+    EventValue -> K
+    PascalCaseId -> K
+    TaskProStmts -> K
+    UpperCase -> K
+    BExp -> K
+    ModelCheckerState -> K
+    TCPError -> K
+    Type -> K
+    IOError -> K
+    AlarmProperty -> K
+    TaskPair -> K
+    TaskState -> K
+} .> {
+    CounterProStmt -> CounterProStmts
+    LtlFormula -> OSEK
+    TCPError -> TCPAnswer
+    DzModelCheckerState -> ModelCheckerState
+    DzInt -> Int
+    Prop -> LtlFormula
+    Id -> AExp
+    Stmt -> OSEKStmt
+    Bool -> Fol
+    AlarmProperty -> AlarmProperties
+    DzProp -> Prop
+    DdefStmt -> OSEKStmt
+    Id -> ListId
+    APIStmt -> OSEKStmt
+    DzBool -> Bool
+    DzFloat -> Float
+    IOError -> TCPError
+    Block -> Stmt
+    TaskProStmt -> TaskProStmts
+    TaskPair -> ListTaskPair
+    DzString -> String
+    String -> TCPAnswer
+    OSEKStmt -> OSEK
+    DdeclStmt -> OSEKStmt
+    DzModelCheckResult -> ModelCheckResult
+    Int -> AExp
+    Int -> MaskType
+    DzLtlFormula -> LtlFormula
+    Bool -> BExp
+    AlarmProStmt -> AlarmProStmts
+} .> {
+    K -> Nat
+    K -> AExp
+    K -> CounterProStmts
+    K -> AlarmProStmts
+    K -> CounterProStmt
+    K -> ModelCheckResult
+    K -> LowerCase
+    K -> CamelCaseId
+    K -> String
+    K -> DdefStmt
+    K -> DzLtlFormula
+    K -> Bool
+    K -> Stream
+    K -> List
+    K -> DdeclStmt
+    K -> ResProStmt
+    K -> DzString
+    K -> DzBool
+    K -> DzModelCheckerState
+    K -> Fol
+    K -> LtlFormula
+    K -> Prop
+    K -> Actions
+    K -> AlarmProStmt
+    K -> MaskType
+    K -> DzModelCheckResult
+    K -> SysApi
+    K -> ListTaskPair
+    K -> OSEK
+    K -> Float
+    K -> DzProp
+    K -> Block
+    K -> Id
+    K -> Map
+    K -> SchedValue
+    K -> DzFloat
+    K -> Action
+    K -> Set
+    K -> Variable
+    K -> AlarmProperties
+    K -> MInt
+    K -> APIStmt
+    K -> TaskProStmt
+    K -> Int
+    K -> Stmt
+    K -> EventProStmt
+    K -> Signal
+    K -> ListId
+    K -> ResProperty
+    K -> ErrorType
+    K -> Char
+    K -> OSEKStmt
+    K -> TCPAnswer
+    K -> DzInt
+    K -> EventValue
+    K -> PascalCaseId
+    K -> TaskProStmts
+    K -> UpperCase
+    K -> BExp
+    K -> ModelCheckerState
+    K -> TCPError
+    K -> Type
+    K -> IOError
+    K -> AlarmProperty
+    K -> TaskPair
+    K -> TaskState
+}
+
+%% subsorts 1a
+context-free priorities
+{
+    Nat -> K
+    AExp -> K
+    CounterProStmts -> K
+    AlarmProStmts -> K
+    CounterProStmt -> K
+    ModelCheckResult -> K
+    LowerCase -> K
+    CamelCaseId -> K
+    String -> K
+    DdefStmt -> K
+    DzLtlFormula -> K
+    Bool -> K
+    Stream -> K
+    List -> K
+    DdeclStmt -> K
+    ResProStmt -> K
+    DzString -> K
+    DzBool -> K
+    DzModelCheckerState -> K
+    Fol -> K
+    LtlFormula -> K
+    Prop -> K
+    Actions -> K
+    AlarmProStmt -> K
+    MaskType -> K
+    DzModelCheckResult -> K
+    SysApi -> K
+    ListTaskPair -> K
+    OSEK -> K
+    Float -> K
+    DzProp -> K
+    Block -> K
+    Id -> K
+    Map -> K
+    SchedValue -> K
+    DzFloat -> K
+    Action -> K
+    Set -> K
+    Variable -> K
+    AlarmProperties -> K
+    MInt -> K
+    APIStmt -> K
+    TaskProStmt -> K
+    Int -> K
+    Stmt -> K
+    EventProStmt -> K
+    Signal -> K
+    ListId -> K
+    ResProperty -> K
+    ErrorType -> K
+    Char -> K
+    OSEKStmt -> K
+    TCPAnswer -> K
+    DzInt -> K
+    EventValue -> K
+    PascalCaseId -> K
+    TaskProStmts -> K
+    UpperCase -> K
+    BExp -> K
+    ModelCheckerState -> K
+    TCPError -> K
+    Type -> K
+    IOError -> K
+    AlarmProperty -> K
+    TaskPair -> K
+    TaskState -> K
+} .> {
+    K -> Nat
+    K -> AExp
+    K -> CounterProStmts
+    K -> AlarmProStmts
+    K -> CounterProStmt
+    K -> ModelCheckResult
+    K -> LowerCase
+    K -> CamelCaseId
+    K -> String
+    K -> DdefStmt
+    K -> DzLtlFormula
+    K -> Bool
+    K -> Stream
+    K -> List
+    K -> DdeclStmt
+    K -> ResProStmt
+    K -> DzString
+    K -> DzBool
+    K -> DzModelCheckerState
+    K -> Fol
+    K -> LtlFormula
+    K -> Prop
+    K -> Actions
+    K -> AlarmProStmt
+    K -> MaskType
+    K -> DzModelCheckResult
+    K -> SysApi
+    K -> ListTaskPair
+    K -> OSEK
+    K -> Float
+    K -> DzProp
+    K -> Block
+    K -> Id
+    K -> Map
+    K -> SchedValue
+    K -> DzFloat
+    K -> Action
+    K -> Set
+    K -> Variable
+    K -> AlarmProperties
+    K -> MInt
+    K -> APIStmt
+    K -> TaskProStmt
+    K -> Int
+    K -> Stmt
+    K -> EventProStmt
+    K -> Signal
+    K -> ListId
+    K -> ResProperty
+    K -> ErrorType
+    K -> Char
+    K -> OSEKStmt
+    K -> TCPAnswer
+    K -> DzInt
+    K -> EventValue
+    K -> PascalCaseId
+    K -> TaskProStmts
+    K -> UpperCase
+    K -> BExp
+    K -> ModelCheckerState
+    K -> TCPError
+    K -> Type
+    K -> IOError
+    K -> AlarmProperty
+    K -> TaskPair
+    K -> TaskState
+}
+
+%% subsorts 2
+context-free priorities
+{
+    K -> Nat
+    K -> AExp
+    K -> CounterProStmts
+    K -> AlarmProStmts
+    K -> CounterProStmt
+    K -> ModelCheckResult
+    K -> LowerCase
+    K -> CamelCaseId
+    K -> String
+    K -> DdefStmt
+    K -> DzLtlFormula
+    K -> Bool
+    K -> Stream
+    K -> List
+    K -> DdeclStmt
+    K -> ResProStmt
+    K -> DzString
+    K -> DzBool
+    K -> DzModelCheckerState
+    K -> Fol
+    K -> LtlFormula
+    K -> Prop
+    K -> Actions
+    K -> AlarmProStmt
+    K -> MaskType
+    K -> DzModelCheckResult
+    K -> SysApi
+    K -> ListTaskPair
+    K -> OSEK
+    K -> Float
+    K -> DzProp
+    K -> Block
+    K -> Id
+    K -> Map
+    K -> SchedValue
+    K -> DzFloat
+    K -> Action
+    K -> Set
+    K -> Variable
+    K -> AlarmProperties
+    K -> MInt
+    K -> APIStmt
+    K -> TaskProStmt
+    K -> Int
+    K -> Stmt
+    K -> EventProStmt
+    K -> Signal
+    K -> ListId
+    K -> ResProperty
+    K -> ErrorType
+    K -> Char
+    K -> OSEKStmt
+    K -> TCPAnswer
+    K -> DzInt
+    K -> EventValue
+    K -> PascalCaseId
+    K -> TaskProStmts
+    K -> UpperCase
+    K -> BExp
+    K -> ModelCheckerState
+    K -> TCPError
+    K -> Type
+    K -> IOError
+    K -> AlarmProperty
+    K -> TaskPair
+    K -> TaskState
+} .> {
+    Nat -> K
+    AExp -> K
+    CounterProStmts -> K
+    AlarmProStmts -> K
+    CounterProStmt -> K
+    ModelCheckResult -> K
+    LowerCase -> K
+    CamelCaseId -> K
+    String -> K
+    DdefStmt -> K
+    DzLtlFormula -> K
+    Bool -> K
+    Stream -> K
+    List -> K
+    DdeclStmt -> K
+    ResProStmt -> K
+    DzString -> K
+    DzBool -> K
+    DzModelCheckerState -> K
+    Fol -> K
+    LtlFormula -> K
+    Prop -> K
+    Actions -> K
+    AlarmProStmt -> K
+    MaskType -> K
+    DzModelCheckResult -> K
+    SysApi -> K
+    ListTaskPair -> K
+    OSEK -> K
+    Float -> K
+    DzProp -> K
+    Block -> K
+    Id -> K
+    Map -> K
+    SchedValue -> K
+    DzFloat -> K
+    Action -> K
+    Set -> K
+    Variable -> K
+    AlarmProperties -> K
+    MInt -> K
+    APIStmt -> K
+    TaskProStmt -> K
+    Int -> K
+    Stmt -> K
+    EventProStmt -> K
+    Signal -> K
+    ListId -> K
+    ResProperty -> K
+    ErrorType -> K
+    Char -> K
+    OSEKStmt -> K
+    TCPAnswer -> K
+    DzInt -> K
+    EventValue -> K
+    PascalCaseId -> K
+    TaskProStmts -> K
+    UpperCase -> K
+    BExp -> K
+    ModelCheckerState -> K
+    TCPError -> K
+    Type -> K
+    IOError -> K
+    AlarmProperty -> K
+    TaskPair -> K
+    TaskState -> K
+}
+context-free syntax
+    "uleMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool10Syn")}
+    "#counter" -> Int {cons("Int12Syn")}
+    "#read" "(" InsertDzInt "," InsertDzInt ")" -> KItem {cons("KItem13Syn")}
+    "findChar" "(" InsertDzString "," InsertDzString "," InsertDzInt ")" -> Int {cons("Int14Syn")}
+    "GetAlarm" "(" InsertDzId "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt15Syn")}
+    "SCHEDULE" "=" InsertDzSchedValue ";" -> TaskProStmt {cons("TaskProStmt16Syn")}
+    "removeAll" "(" InsertDzMap "," InsertDzSet ")" -> Map {cons("Map18Syn")}
+    Map "=Map" Map -> Bool {cons("Bool19Syn")}
+    Set "=Set" Set -> Bool {cons("Bool120Syn")}
+    "DisableAllInterrupts" -> SysApi {cons("SysApi122Syn")}
+    "values" "(" InsertDzMap ")" -> List {cons("List123Syn")}
+    "Error" "(" InsertDzErrorType "," InsertDzId "," InsertDzOSEKStmt "," InsertDzString ")" -> String {cons("String124Syn")}
+    ".List" -> List {cons("List125Syn")}
+    "#freshSymSortN" "(" InsertDzString "," InsertDzInt ")" -> K {cons("K126Syn")}
+    "#if" InsertDzBool "#then" InsertDzList "#else" InsertDzList "#fi" -> List {cons("List127Syn")}
+    "#ostream" "(" InsertDzInt ")" -> Stream {cons("Stream128Syn")}
+    "CancelAlarm" -> SysApi {cons("SysApi129Syn")}
+    "KLabel2String" "(" InsertDzKLabel ")" -> String {cons("String130Syn")}
+    "ready" -> TaskState {cons("TaskState132Syn")}
+    "miMInt" "(" InsertDzList ")" -> MInt {cons("MInt133Syn")}
+    "isKResult" "(" InsertDzKItem ")" -> Bool {cons("Bool134Syn")}
+    "exponentFloat" "(" InsertDzFloat ")" -> Int {cons("Int135Syn")}
+    TCPError -> TCPAnswer {}
+    "wait" "(" InsertDzId "," InsertDzId ")" -> Prop {cons("Prop136Syn")}
+    "GetTaskID" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt138Syn")}
+    "ashrMInt" "(" InsertDzMInt "," InsertDzInt ")" -> MInt {cons("MInt139Syn")}
+    "substrString" "(" InsertDzString "," InsertDzInt "," InsertDzInt ")" -> String {cons("String140Syn")}
+    "saddMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List142Syn")}
+    Set "-Set" Set -> Set {cons("Set143Syn")}
+    "String2KLabel" "(" InsertDzString ")" -> KLabel {cons("KLabel144Syn")}
+    "#parseInput" "(" InsertDzString "," InsertDzString ")" -> Stream {cons("Stream145Syn")}
+    String "=/=String" String -> Bool {left, cons("Bool146Syn")}
+    "freshId" "(" InsertDzInt ")" -> Id {cons("Id147Syn")}
+    "E_OS_STATE" -> ErrorType {cons("ErrorType148Syn")}
+    "CYCLETIME" "=" InsertDzInt ";" -> AlarmProperty {cons("AlarmProperty150Syn")}
+    "SetrelAlarm" -> SysApi {cons("SysApi152Syn")}
+    "ordChar" "(" InsertDzString ")" -> Int {cons("Int153Syn")}
+    "#distinctCounter" "(" InsertDzInt ")" -> Int {cons("Int155Syn")}
+    "if" "(" InsertDzBExp ")" Block -> Stmt {cons("Stmt156Syn")}
+    "freshInt" "(" InsertDzInt ")" -> Int {cons("Int157Syn")}
+    "waiting" -> TaskState {cons("TaskState158Syn")}
+    "updateMap" "(" InsertDzMap "," InsertDzMap ")" -> Map {cons("Map159Syn")}
+    "String2Bag" "(" InsertDzString ")" -> Bag {cons("Bag160Syn")}
+    "ListItem" "(" InsertDzK ")" -> List {cons("List162Syn")}
+    "TerminateTask" "(" ")" ";" -> APIStmt {cons("APIStmt163Syn")}
+    "expFloat" "(" InsertDzFloat ")" -> Float {cons("Float164Syn")}
+    "shlMInt" "(" InsertDzMInt "," InsertDzInt ")" -> MInt {cons("MInt167Syn")}
+    "ugeMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool168Syn")}
+    "convert2apis" "(" InsertDzList ")" -> OSEKStmt {cons("OSEKStmt169Syn")}
+    "maxFloat" "(" InsertDzFloat "," InsertDzFloat ")" -> Float {cons("Float170Syn")}
+    "#statTypes" "(" InsertDzKList ")" -> KList {cons("KList172Syn")}
+    "RESOURCEPROPERTY" "=" InsertDzResProperty ";" -> ResProStmt {cons("ResProStmt173Syn")}
+    "#opendir" "(" InsertDzString ")" -> KList {cons("KList174Syn")}
+    KLabel "=KLabel" KLabel -> Bool {cons("Bool175Syn")}
+    "exponentBitsFloat" "(" InsertDzFloat ")" -> Int {cons("Int176Syn")}
+    "absInt" "(" InsertDzInt ")" -> Int {cons("Int177Syn")}
+    "mi" "(" InsertDzInt "," InsertDzInt ")" -> MInt {cons("MInt178Syn")}
+    "smaxMInt" "(" InsertDzInt ")" -> Int {cons("Int179Syn")}
+    "uoverflowMInt" "(" InsertDzInt "," InsertDzInt ")" -> Bool {cons("Bool180Syn")}
+    AlarmProperty "" AlarmProperties -> AlarmProperties {cons("AlarmProperties1ListSyn")}
+    ".AlarmProperties" -> AlarmProperties {cons("AlarmProperties1Empty")}
+    "cool" "(" InsertDzK ")" -> K {cons("K183Syn")}
+    AlarmProStmt "" AlarmProStmts -> AlarmProStmts {cons("AlarmProStmts1ListSyn")}
+    ".AlarmProStmts" -> AlarmProStmts {cons("AlarmProStmts1Empty")}
+    "String2Bool" "(" InsertDzTCPAnswer ")" -> Bool {cons("Bool186Syn")}
+    "isNaN" "(" InsertDzFloat ")" -> Bool {cons("Bool188Syn")}
+    "WaitEvent" -> SysApi {cons("SysApi189Syn")}
+    Set "<=Set" Set -> Bool {cons("Bool190Syn")}
+    "negMInt" "(" InsertDzMInt ")" -> MInt {cons("MInt192Syn")}
+    "#putc" "(" InsertDzInt "," InsertDzInt ")" -> K {cons("K194Syn")}
+    "wrap" "(" InsertDzAlarmProStmts ")" -> DdeclStmt {cons("DdeclStmt195Syn")}
+    "SETEVENT" -> Actions {cons("Actions196Syn")}
+    List "=List" List -> Bool {cons("Bool199Syn")}
+    "ReleaseResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1200Syn")}
+    "findString" "(" InsertDzString "," InsertDzString "," InsertDzInt ")" -> Int {cons("Int1202Syn")}
+    "SMTLibQuery" "(" InsertDzFol ")" -> String {cons("String1203Syn")}
+    "Int2String" "(" InsertDzInt ")" -> String {cons("String1204Syn")}
+    "E_OS_CONF" -> ErrorType {cons("ErrorType1205Syn")}
+    "EVENT" "=" InsertDzId ";" -> TaskProStmt {cons("TaskProStmt1207Syn")}
+    "ssubMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1208Syn")}
+    Map "[" InsertDzK "]" -> K {cons("K1209Syn")}
+    Prop -> LtlFormula {}
+    "RESOURCE" InsertDzId "{" InsertDzResProStmt "}" ";" -> DdeclStmt {cons("DdeclStmt1220Syn")}
+    "xorMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1222Syn")}
+    "TASK" InsertDzId "{" InsertDzTaskProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1223Syn")}
+    Id "|" ListId -> ListId {cons("ListId1ListSyn")}
+    ".ListId" -> ListId {cons("ListId1Empty")}
+    "Vars2SMTLib" "(" InsertDzSet ")" -> String {cons("String1224Syn")}
+    "API" "(" InsertDzBag "," InsertDzId ")" -> Id {cons("Id1225Syn")}
+    "isSymbolicBag" "(" InsertDzBag ")" -> KItem {cons("KItem1226Syn")}
+    "wrap" "(" InsertDzAlarmProperties ")" -> DdeclStmt {cons("DdeclStmt1227Syn")}
+    "Bag2String" "(" InsertDzBag ")" -> String {cons("String1228Syn")}
+    "#isWhiteSpace" "(" InsertDzString ")" -> Bool {cons("Bool1230Syn")}
+    "#getVars1" "(" InsertDzKList "," InsertDzSet ")" -> Set {cons("Set1232Syn")}
+    "logFloat" "(" InsertDzFloat ")" -> Float {cons("Float1233Syn")}
+    "#open" "(" InsertDzString "," InsertDzString ")" -> KItem {cons("KItem1234Syn")}
+    "disableInterrupt" -> Signal {cons("Signal1236Syn")}
+    KLabel "==KLabel" KLabel -> Bool {cons("Bool1237Syn")}
+    "ACTIVATION" "=" InsertDzInt ";" -> TaskProStmt {cons("TaskProStmt1238Syn")}
+    "#binderSplit" "(" InsertDzK ")" -> K {cons("K1239Syn")}
+    "mIntOfDigits" "(" InsertDzList ")" -> MInt {cons("MInt1240Syn")}
+    KList "=/=KList" KList -> Bool {cons("Bool1242Syn")}
+    "ugtMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1243Syn")}
+    "uminMInt" "(" InsertDzInt ")" -> Int {cons("Int1244Syn")}
+    "#isDigit" "(" InsertDzString ")" -> Bool {cons("Bool1245Syn")}
+    "COUNTER" InsertDzId "{" InsertDzCounterProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1246Syn")}
+    "stop" -> Signal {cons("Signal1247Syn")}
+    "fpNaN" "(" InsertDzInt "," InsertDzInt ")" -> Float {cons("Float1248Syn")}
+    "SetAbsAlarm" "(" InsertDzId "," InsertDzInt "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt1249Syn")}
+    "E_OS_CALLEVEL" -> ErrorType {cons("ErrorType1250Syn")}
+    TaskPair "" ListTaskPair -> ListTaskPair {cons("ListTaskPair1ListSyn")}
+    ".ListTaskPair" -> ListTaskPair {cons("ListTaskPair1Empty")}
+    "ActivateTask" -> SysApi {cons("SysApi1253Syn")}
+    "neMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1255Syn")}
+    "Id2String" "(" InsertDzId ")" -> String {cons("String1257Syn")}
+    "#ELOOP" -> IOError {cons("IOError1258Syn")}
+    "String2Base" "(" InsertDzString "," InsertDzInt ")" -> Int {cons("Int1259Syn")}
+    "keys" "(" InsertDzMap ")" -> Set {cons("Set1260Syn")}
+    "resource" -> Type {cons("Type1262Syn")}
+    "MASK" "=" InsertDzMaskType ";" -> EventProStmt {cons("EventProStmt1263Syn")}
+    "modelCheck" "(" InsertDzModelCheckerState "," InsertDzLtlFormula ")" -> ModelCheckResult {cons("ModelCheckResult1264Syn")}
+    "ACTIVATE" -> Actions {cons("Actions1265Syn")}
+    "#parseToken" "(" InsertDzString "," InsertDzString ")" -> KItem {cons("KItem1266Syn")}
+    "smulMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1267Syn")}
+    "states" "(" InsertDzBag "," InsertDzId ")" -> TaskState {cons("TaskState1268Syn")}
+    "#stat" "(" InsertDzString ")" -> KList {cons("KList1269Syn")}
+    "ultMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1270Syn")}
+    "MINICYCLE" "=" InsertDzInt ";" -> CounterProStmt {cons("CounterProStmt1272Syn")}
+    "sgtMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1273Syn")}
+    "#close" "(" InsertDzInt ")" -> K {cons("K1274Syn")}
+    "minInt" "(" InsertDzInt "," InsertDzInt ")" -> Int {cons("Int1275Syn")}
+    "sMinMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1277Syn")}
+    "E_OS_UNDEF" -> ErrorType {cons("ErrorType1278Syn")}
+    Map "<=Map" Map -> Bool {cons("Bool1279Syn")}
+    "ceilFloat" "(" InsertDzFloat ")" -> Float {cons("Float1280Syn")}
+    "#ENOTDIR" -> IOError {cons("IOError1282Syn")}
+    String "==String" String -> Bool {left, cons("Bool1283Syn")}
+    Id "=" InsertDzAExp ";" -> Stmt {cons("Stmt1284Syn")}
+    "countvalue" "(" InsertDzInt ")" -> Prop {cons("Prop1285Syn")}
+    String "+String" String -> String {left, cons("String1286Syn")}
+    K "in" Set -> Bool {cons("Bool1288Syn")}
+    ".Map" -> Map {cons("Map1289Syn")}
+    KLabel "=/=KLabel" KLabel -> Bool {cons("Bool1290Syn")}
+    KList "==KList" KList -> Bool {cons("Bool1292Syn")}
+    "GetTaskState" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1293Syn")}
+    "GetResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1294Syn")}
+    "ACTION" "=" InsertDzAction ";" -> AlarmProStmt {cons("AlarmProStmt1296Syn")}
+    CounterProStmt "" CounterProStmts -> CounterProStmts {cons("CounterProStmts1ListSyn")}
+    ".CounterProStmts" -> CounterProStmts {cons("CounterProStmts1Empty")}
+    "replaceAll" "(" InsertDzString "," InsertDzString "," InsertDzString ")" -> String {cons("String1297Syn")}
+    "concatenateMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1298Syn")}
+    "ClearEvent" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1299Syn")}
+    Bag "=Bag" Bag -> Bool {cons("Bool1300Syn")}
+    "floorFloat" "(" InsertDzFloat ")" -> Float {cons("Float1302Syn")}
+    "precisionFloat" "(" InsertDzFloat ")" -> Int {cons("Int1303Syn")}
+    "String2K" "(" InsertDzString ")" -> K {cons("K1305Syn")}
+    "SET" -> EventValue {cons("EventValue1306Syn")}
+    "task" -> Type {cons("Type1307Syn")}
+    Float ">Float" Float -> Bool {left, cons("Bool1309Syn")}
+    "E_OS_ID" -> ErrorType {cons("ErrorType1320Syn")}
+    "WaitEvent" "(" InsertDzListId ")" ";" -> APIStmt {cons("APIStmt1322Syn")}
+    "exists" InsertDzSet "." Bool -> Bool {cons("Bool1323Syn")}
+    "isVariable" "(" InsertDzList ")" -> Bool {cons("Bool1325Syn")}
+    "$mi" "(" InsertDzInt "," InsertDzInt ")" -> MInt {cons("MInt1326Syn")}
+    "freeVariables" "(" InsertDzKList ")" -> Set {cons("Set1327Syn")}
+    "#freshVar1" "(" InsertDzSet "," InsertDzK ")" -> K {cons("K1329Syn")}
+    Block -> Stmt {}
+    "AUTOSTART" "=" "false" ";" -> AlarmProStmt {cons("AlarmProStmt1330Syn")}
+    "#ENAMETOOLONG" -> IOError {cons("IOError1332Syn")}
+    "plusInfinity" "(" InsertDzInt "," InsertDzInt ")" -> Float {cons("Float1333Syn")}
+    "significandFloat" "(" InsertDzFloat ")" -> MInt {cons("MInt1334Syn")}
+    Float "==Float" Float -> Bool {left, cons("Bool1335Syn")}
+    "succession" "(" InsertDzTaskState "," InsertDzId ")" -> Prop {cons("Prop1337Syn")}
+    "FULL" -> SchedValue {cons("SchedValue1339Syn")}
+    "size" "(" InsertDzMap ")" -> Int {cons("Int1340Syn")}
+    "ReleaseResource" -> SysApi {cons("SysApi1343Syn")}
+    "SetabsAlarm" -> SysApi {cons("SysApi1344Syn")}
+    "sleMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1345Syn")}
+    "SetEvent" -> SysApi {cons("SysApi1346Syn")}
+    "alarm" -> Type {cons("Type1347Syn")}
+    "#boundVars1" "(" InsertDzK ")" -> Set {cons("Set1348Syn")}
+    "minFloat" "(" InsertDzFloat "," InsertDzFloat ")" -> Float {cons("Float1349Syn")}
+    String "<=String" String -> Bool {cons("Bool1350Syn")}
+    "mulMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1352Syn")}
+    "ALARM" InsertDzId "{" InsertDzAlarmProStmts "}" ";" -> DdeclStmt {cons("DdeclStmt1354Syn")}
+    "running" -> TaskState {cons("TaskState1355Syn")}
+    "alarmed" -> Signal {cons("Signal1356Syn")}
+    "#splitedBinder" "(" InsertDzKList "," InsertDzKList "," InsertDzSet ")" -> KItem {cons("KItem1357Syn")}
+    "choice" "(" InsertDzMap ")" -> K {cons("K1358Syn")}
+    "#isTCPError" "(" InsertDzString ")" -> Bool {cons("Bool1360Syn")}
+    "countAllOccurences" "(" InsertDzString "," InsertDzString ")" -> Int {cons("Int1362Syn")}
+    "E_OS_ACCESS" -> ErrorType {cons("ErrorType1364Syn")}
+    "soverflowMInt" "(" InsertDzInt "," InsertDzInt ")" -> Bool {cons("Bool1366Syn")}
+    "add" "(" InsertDzId "," InsertDzInt "," InsertDzListTaskPair ")" -> ListTaskPair {cons("ListTaskPair1367Syn")}
+    K "=K" K -> Bool {cons("Bool1368Syn")}
+    "INTERNAL" -> ResProperty {cons("ResProperty1369Syn")}
+    "#freshSymSort" "(" InsertDzString ")" -> K {cons("K1370Syn")}
+    "uaddMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1372Syn")}
+    DzLtlFormula -> LtlFormula {}
+    Map "[" InsertDzK "<-" "undef" "]" -> Map {cons("Map1374Syn")}
+    "forall" InsertDzSet "." Bool -> Bool {cons("Bool1375Syn")}
+    Bag "|=Ltl" K -> Bool {cons("Bool1376Syn")}
+    "String2DotK" "(" InsertDzTCPAnswer ")" -> K {cons("K1377Syn")}
+    "#seek" "(" InsertDzInt "," InsertDzInt ")" -> K {cons("K1379Syn")}
+    "wrap" "(" InsertDzCounterProStmts ")" -> DdeclStmt {cons("DdeclStmt1380Syn")}
+    "eqMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1382Syn")}
+    "set" "(" InsertDzId "," InsertDzId ")" -> Prop {cons("Prop1383Syn")}
+    "GetResource" -> SysApi {cons("SysApi1384Syn")}
+    "#ioError" "(" InsertDzString ")" -> KItem {cons("KItem1385Syn")}
+    "AUTOSTART" "=" "true" "{" InsertDzAlarmProperties "}" ";" -> AlarmProStmt {cons("AlarmProStmt1387Syn")}
+    "asinFloat" "(" InsertDzFloat ")" -> Float {cons("Float1388Syn")}
+    "#buffer" "(" InsertDzK ")" -> Stream {cons("Stream1389Syn")}
+    "sgeMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1392Syn")}
+    K "inKList" KList -> Bool {cons("Bool1393Syn")}
+    "GetAlarmBase" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1394Syn")}
+    "isKLabelConstant" "(" InsertDzKLabel ")" -> Bool {cons("Bool1395Syn")}
+    "DeclareResource" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1396Syn")}
+    "#EISDIR" -> IOError {cons("IOError1397Syn")}
+    "K2Sort" "(" InsertDzK ")" -> String {cons("String1398Syn")}
+    "isVariable" "(" InsertDzMap ")" -> Bool {cons("Bool1399Syn")}
+    "#string2klist" "(" InsertDzString ")" -> KList {cons("KList1400Syn")}
+    Map "[" InsertDzK "<-" InsertDzK "]" -> Map {cons("Map1402Syn")}
+    "sqrtFloat" "(" InsertDzFloat ")" -> Float {cons("Float1403Syn")}
+    "sinFloat" "(" InsertDzFloat ")" -> Float {cons("Float1404Syn")}
+    String "<String" String -> Bool {cons("Bool1405Syn")}
+    "SetRelAlarm" "(" InsertDzId "," InsertDzInt "," InsertDzInt ")" ";" -> APIStmt {cons("APIStmt1406Syn")}
+    "DeclareEvent" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1407Syn")}
+    "roundFloat" "(" InsertDzFloat "," InsertDzInt "," InsertDzInt ")" -> Float {cons("Float1408Syn")}
+    "NON" -> SchedValue {cons("SchedValue1420Syn")}
+    "AUTOSTART" "=" InsertDzBool ";" -> TaskProStmt {cons("TaskProStmt1422Syn")}
+    "addMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1424Syn")}
+    "#EBADF" -> IOError {cons("IOError1425Syn")}
+    "wrap" "(" InsertDzTaskProStmts ")" -> DdeclStmt {cons("DdeclStmt1426Syn")}
+    "int" InsertDzId ";" -> Stmt {cons("Stmt1427Syn")}
+    "isBuiltin" "(" InsertDzK ")" -> Bool {cons("Bool1428Syn")}
+    "#stderr" -> Int {cons("Int1429Syn")}
+    "signFloat" "(" InsertDzFloat ")" -> Bool {cons("Bool1430Syn")}
+    Map "-Map" Map -> Map {cons("Map1432Syn")}
+    OSEKStmt -> OSEK {}
+    "#checkTCPAnswer" "(" InsertDzString ")" -> TCPAnswer {cons("TCPAnswer1433Syn")}
+    "CALLBACK" -> Actions {cons("Actions1434Syn")}
+    "categoryChar" "(" InsertDzString ")" -> String {cons("String1435Syn")}
+    LtlFormula -> OSEK {}
+    "DeclareAlarm" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1436Syn")}
+    "{" InsertDzOSEKStmt "}" -> Block {cons("Block1437Syn")}
+    Int "dividesInt" Int -> Bool {cons("Bool1438Syn")}
+    "isBounding" "(" InsertDzKLabel "," InsertDzInt ")" -> Bool {cons("Bool1439Syn")}
+    "#boundVars" "(" InsertDzK ")" -> K {cons("K1442Syn")}
+    "E_OS_RESOURCE" -> ErrorType {cons("ErrorType1443Syn")}
+    "SETEVENT" "{" "TASK" "=" InsertDzId ";" "EVENT" "=" InsertDzId ";" "}" -> Action {cons("Action1444Syn")}
+    DzInt -> Int {}
+    "waitEvent" "(" InsertDzListId ")" -> APIStmt {cons("APIStmt1445Syn")}
+    "#freezer" K -> KLabel {cons("KLabel1446Syn")}
+    K "|->" K -> Map {cons("Map1449Syn")}
+    "EVENT" InsertDzId "{" InsertDzEventProStmt "}" ";" -> DdeclStmt {cons("DdeclStmt1450Syn")}
+    "Schedule" "(" ")" ";" -> APIStmt {cons("APIStmt1452Syn")}
+    "size" "(" InsertDzList ")" -> Int {cons("Int1453Syn")}
+    "andMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1454Syn")}
+    Int "=Int" Int -> Bool {cons("Bool1455Syn")}
+    "SetEvent" "(" InsertDzId "," InsertDzId ")" ";" -> APIStmt {cons("APIStmt1456Syn")}
+    "PRIORITY" "=" InsertDzInt ";" -> TaskProStmt {cons("TaskProStmt1457Syn")}
+    "taskstate" "(" InsertDzId ")" -> Prop {cons("Prop1458Syn")}
+    "TASK" InsertDzId "{" InsertDzOSEKStmt "}" ";" -> DdefStmt {cons("DdefStmt1459Syn")}
+    "rfindChar" "(" InsertDzString "," InsertDzString "," InsertDzInt ")" -> Int {cons("Int1460Syn")}
+    "acosFloat" "(" InsertDzFloat ")" -> Float {cons("Float1462Syn")}
+    "isSymbolicK" "(" InsertDzList ")" -> KItem {cons("KItem1464Syn")}
+    "#lstat" "(" InsertDzString ")" -> KList {cons("KList1465Syn")}
+    "trim" "(" InsertDzString ")" -> String {cons("String1466Syn")}
+    "#parseInModule" "(" InsertDzString "," InsertDzString "," InsertDzString ")" -> KItem {cons("KItem1467Syn")}
+    "eq" "(" InsertDzId "," InsertDzInt ")" -> Prop {cons("Prop1468Syn")}
+    Int "<Int" Int -> Bool {left, cons("Bool1469Syn")}
+    "CLEAR" -> EventValue {cons("EventValue1472Syn")}
+    "#tcpRequest" "(" InsertDzString ")" -> TCPAnswer {cons("TCPAnswer1473Syn")}
+    "String2Float" "(" InsertDzString ")" -> Float {cons("Float1474Syn")}
+    "STANDARD" -> ResProperty {cons("ResProperty1475Syn")}
+    "#freshSymN" "(" InsertDzK "," InsertDzInt ")" -> K {cons("K1476Syn")}
+    IOError -> TCPError {}
+    "#string2Int" "(" InsertDzK ")" -> K {cons("K1479Syn")}
+    "Float2Int" "(" InsertDzFloat ")" -> Int {cons("Int1480Syn")}
+    "ActivateTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1482Syn")}
+    "<" InsertDzId ";" InsertDzInt ">" -> TaskPair {cons("TaskPair1483Syn")}
+    "isVariable" "(" InsertDzSet ")" -> Bool {cons("Bool1484Syn")}
+    "range" "(" InsertDzList "," InsertDzInt "," InsertDzInt ")" -> List {cons("List1485Syn")}
+    "rtrim" "(" InsertDzString ")" -> String {cons("String1486Syn")}
+    "bitwidthMInt" "(" InsertDzMInt ")" -> Int {cons("Int1487Syn")}
+    "ACTIVATETASK" "{" "TASK" "=" InsertDzId ";" "}" -> Action {cons("Action1488Syn")}
+    "cosFloat" "(" InsertDzFloat ")" -> Float {cons("Float1492Syn")}
+    "chrChar" "(" InsertDzInt ")" -> String {cons("String1493Syn")}
+    "directionalityChar" "(" InsertDzString ")" -> String {cons("String1494Syn")}
+    "COUNTER" "=" InsertDzId ";" -> AlarmProStmt {cons("AlarmProStmt1495Syn")}
+    DzBool -> Bool {}
+    KList "=KList" KList -> Bool {cons("Bool1496Syn")}
+    Float ">=Float" Float -> Bool {left, cons("Bool1497Syn")}
+    Map Map -> Map {left, cons("Map1498Syn")}
+    Float "<Float" Float -> Bool {left, cons("Bool1499Syn")}
+    "udivMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1500Syn")}
+    "atan2Float" "(" InsertDzFloat "," InsertDzFloat ")" -> Float {cons("Float1502Syn")}
+    "Float2String" "(" InsertDzFloat ")" -> String {cons("String1503Syn")}
+    "randomRandom" "(" InsertDzInt ")" -> Int {cons("Int1504Syn")}
+    "#noIO" -> Stream {cons("Stream1506Syn")}
+    DzProp -> Prop {}
+    "sysCounter" -> Type {cons("Type1507Syn")}
+    "isCollection" "(" InsertDzK ")" -> K {cons("K1508Syn")}
+    Float "=/=Float" Float -> Bool {left, cons("Bool1509Syn")}
+    "#tokenToString" "(" InsertDzK ")" -> String {cons("String1520Syn")}
+    "#freshVar" "(" InsertDzK "," InsertDzSet ")" -> K {cons("K1522Syn")}
+    "#EACCES" -> IOError {cons("IOError1523Syn")}
+    "subMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1524Syn")}
+    "isLocalFreshVar" "(" InsertDzK ")" -> Bool {cons("Bool1525Syn")}
+    "#parse" "(" InsertDzString "," InsertDzString ")" -> KItem {cons("KItem1526Syn")}
+    "intersectSet" "(" InsertDzSet "," InsertDzSet ")" -> Set {cons("Set1527Syn")}
+    "Base2String" "(" InsertDzInt "," InsertDzInt ")" -> String {cons("String1528Syn")}
+    "E_OS_LIMIT" -> ErrorType {cons("ErrorType1529Syn")}
+    "ALARMTIME" "=" InsertDzInt ";" -> AlarmProperty {cons("AlarmProperty1530Syn")}
+    "state" "(" InsertDzBag ")" -> Id {cons("Id1532Syn")}
+    Set Set -> Set {left, cons("Set1533Syn")}
+    "sminMInt" "(" InsertDzInt ")" -> Int {cons("Int1534Syn")}
+    "ltrim" "(" InsertDzString ")" -> String {cons("String1535Syn")}
+    "SMTLibQuery" "(" InsertDzBool ")" -> String {cons("String1536Syn")}
+    "#write" "(" InsertDzInt "," InsertDzString ")" -> K {cons("K1537Syn")}
+    K "#inKList" KList -> Bool {cons("Bool1538Syn")}
+    "AUTO" -> MaskType {cons("MaskType1539Syn")}
+    "TimeInterval" "=" InsertDzAExp ";" -> Stmt {cons("Stmt1540Syn")}
+    "rootFloat" "(" InsertDzFloat "," InsertDzInt ")" -> Float {cons("Float1542Syn")}
+    "absFloat" "(" InsertDzFloat ")" -> Float {cons("Float1543Syn")}
+    "#if" InsertDzBool "#then" InsertDzK "#else" InsertDzK "#fi" -> K {cons("K1544Syn")}
+    "SMTCall" "(" InsertDzString ")" -> String {cons("String1545Syn")}
+    "SetItem" "(" InsertDzK ")" -> Set {cons("Set1546Syn")}
+    "uremMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1547Syn")}
+    "event" -> Type {cons("Type1548Syn")}
+    "count" "(" InsertDzBag ")" -> Int {cons("Int1549Syn")}
+    "choice" "(" InsertDzSet ")" -> K {cons("K1550Syn")}
+    "String2Int" "(" InsertDzString ")" -> Int {cons("Int1552Syn")}
+    "K2String" "(" InsertDzK ")" -> String {cons("String1553Syn")}
+    "zeroMInt" "(" InsertDzMInt ")" -> Bool {cons("Bool1554Syn")}
+    Int "=/=Int" Int -> Bool {left, cons("Bool1555Syn")}
+    "#systemTypes" "(" InsertDzKList ")" -> KItem {cons("KItem1556Syn")}
+    "remove" "(" InsertDzK "," InsertDzList ")" -> List {cons("List1557Syn")}
+    "E_OS_NOFUNC" -> ErrorType {cons("ErrorType1558Syn")}
+    DzString -> String {}
+    "isBound" "(" InsertDzKLabel "," InsertDzInt ")" -> Bool {cons("Bool1559Syn")}
+    "isVariable" "(" InsertDzBag ")" -> Bool {cons("Bool1562Syn")}
+    "fresh" "(" InsertDzString ")" -> KItem {cons("KItem1563Syn")}
+    "Consts2SMTLib" "(" InsertDzSet ")" -> String {cons("String1564Syn")}
+    "Error" "(" InsertDzErrorType "," InsertDzId "," InsertDzString ")" -> String {cons("String1565Syn")}
+    DzFloat -> Float {}
+    "rfindString" "(" InsertDzString "," InsertDzString "," InsertDzInt ")" -> Int {cons("Int1566Syn")}
+    DzModelCheckResult -> ModelCheckResult {}
+    "#systemResult" "(" InsertDzInt "," InsertDzString "," InsertDzString ")" -> KItem {cons("KItem1567Syn")}
+    "#stdin" -> Int {cons("Int1568Syn")}
+    "##tcpRequest" "(" InsertDzString ")" -> String {cons("String1569Syn")}
+    "maxInt" "(" InsertDzInt "," InsertDzInt ")" -> Int {cons("Int1572Syn")}
+    "K2SMTLib" "(" InsertDzK ")" -> String {cons("String1573Syn")}
+    "lengthString" "(" InsertDzString ")" -> Int {cons("Int1574Syn")}
+    "uvalueMInt" "(" InsertDzMInt ")" -> Int {cons("Int1578Syn")}
+    "#system" "(" InsertDzString ")" -> KItem {cons("KItem1579Syn")}
+    Float "<=Float" Float -> Bool {left, cons("Bool1583Syn")}
+    "svalueMInt" "(" InsertDzMInt ")" -> Int {cons("Int1584Syn")}
+    "tanFloat" "(" InsertDzFloat ")" -> Float {cons("Float1585Syn")}
+    "replace" "(" InsertDzString "," InsertDzString "," InsertDzString "," InsertDzInt ")" -> String {cons("String1586Syn")}
+    ".Set" -> Set {cons("Set1587Syn")}
+    List List -> List {left, cons("List1588Syn")}
+    "ChainTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1589Syn")}
+    "checkSat" "(" InsertDzFol ")" -> String {cons("String1590Syn")}
+    Int ">Int" Int -> Bool {left, cons("Bool1592Syn")}
+    "String2Id" "(" InsertDzString ")" -> Id {cons("Id1593Syn")}
+    "suspend" -> TaskState {cons("TaskState1594Syn")}
+    "atanFloat" "(" InsertDzFloat ")" -> Float {cons("Float1595Syn")}
+    "initialTask" -> Id {cons("Id1596Syn")}
+    String ">=String" String -> Bool {cons("Bool1597Syn")}
+    "sdivMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1598Syn")}
+    "RESOURCE" "=" InsertDzId ";" -> TaskProStmt {cons("TaskProStmt1599Syn")}
+    Int "<=Int" Int -> Bool {left, cons("Bool1600Syn")}
+    String -> TCPAnswer {}
+    Int "==Int" Int -> Bool {left, cons("Bool1602Syn")}
+    "Char2String" "(" InsertDzChar ")" -> String {cons("String1603Syn")}
+    Int ">=Int" Int -> Bool {left, cons("Bool1604Syn")}
+    "lshrMInt" "(" InsertDzMInt "," InsertDzInt ")" -> MInt {cons("MInt1606Syn")}
+    "sltMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> Bool {cons("Bool1607Syn")}
+    "digitsOfMInt" "(" InsertDzMInt "," InsertDzInt "," InsertDzInt ")" -> List {cons("List1608Syn")}
+    "#ENOENT" -> IOError {cons("IOError1609Syn")}
+    "usubMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1620Syn")}
+    "#EINVAL" -> IOError {cons("IOError1623Syn")}
+    "umaxMInt" "(" InsertDzInt ")" -> Int {cons("Int1624Syn")}
+    String ">String" String -> Bool {cons("Bool1625Syn")}
+    "sremMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1626Syn")}
+    "isToken" "(" InsertDzK ")" -> Bool {cons("Bool1627Syn")}
+    DzModelCheckerState -> ModelCheckerState {}
+    "#freshSym" "(" InsertDzK ")" -> K {cons("K1628Syn")}
+    "ChainTask" -> SysApi {cons("SysApi1629Syn")}
+    List "[" InsertDzInt "]" -> K {cons("K1630Syn")}
+    "String2Char" "(" InsertDzString ")" -> Char {cons("Char1632Syn")}
+    "while" "(" InsertDzBExp ")" Block -> Stmt {cons("Stmt1633Syn")}
+    "getVariables" "(" InsertDzK ")" -> Set {cons("Set1634Syn")}
+    "#stdout" -> Int {cons("Int1635Syn")}
+    "#tcpError" "(" InsertDzString ")" -> TCPError {cons("TCPError1636Syn")}
+    "#noparse" -> IOError {cons("IOError1637Syn")}
+    "extractMInt" "(" InsertDzMInt "," InsertDzInt "," InsertDzInt ")" -> MInt {cons("MInt1638Syn")}
+    "type2String" "(" InsertDzType ")" -> String {cons("String1640Syn")}
+    "checkSat" "(" InsertDzBool ")" -> String {cons("String1642Syn")}
+    "ClearEvent" -> SysApi {cons("SysApi1643Syn")}
+    "E_OS_VALUE" -> ErrorType {cons("ErrorType1644Syn")}
+    "minusInfinity" "(" InsertDzInt "," InsertDzInt ")" -> Float {cons("Float1645Syn")}
+    "Int2Float" "(" InsertDzInt "," InsertDzInt "," InsertDzInt ")" -> Float {cons("Float1647Syn")}
+    Int -> MaskType {}
+    "#istream" "(" InsertDzInt ")" -> Stream {cons("Stream1648Syn")}
+    "DeclareTask" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1649Syn")}
+    "#getVars" "(" InsertDzK ")" -> Set {cons("Set1650Syn")}
+    "replaceFirst" "(" InsertDzString "," InsertDzString "," InsertDzString ")" -> String {cons("String1652Syn")}
+    "#getSymLabel" "(" InsertDzString ")" -> K {cons("K1653Syn")}
+    "schedule" -> Signal {cons("Signal1654Syn")}
+    KResult -> KItem {}
+    "getKLabel" K -> KLabel {cons("KLabel1655Syn")}
+    "orMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1656Syn")}
+    "CancelAlarm" "(" InsertDzId ")" ";" -> APIStmt {cons("APIStmt1657Syn")}
+    "clear" "(" InsertDzMap ")" -> Map {cons("Map1658Syn")}
+    "dummy" "(" InsertDzKList ")" -> KItem {cons("KItem1659Syn")}
+    "#getc" "(" InsertDzInt ")" -> KItem {cons("KItem1660Syn")}
+    "bool2Int" "(" InsertDzBool ")" -> Int {cons("Int1662Syn")}
+    "#retrieveTCPError" "(" InsertDzString ")" -> String {cons("String1663Syn")}
+    "umulMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> List {cons("List1664Syn")}
+    "#EOF" -> IOError {cons("IOError1665Syn")}
+    "#tell" "(" InsertDzInt ")" -> KItem {cons("KItem1667Syn")}
+    "GetAlarm" -> SysApi {cons("SysApi1668Syn")}
+    "#open" "(" InsertDzString ")" -> KItem {cons("KItem1669Syn")}
+    "MAXALLOWEDVALUE" "=" InsertDzInt ";" -> CounterProStmt {cons("CounterProStmt1670Syn")}
+    "{" "}" -> Block {cons("Block1672Syn")}
+    "overflowMInt" "(" InsertDzList ")" -> Bool {cons("Bool1673Syn")}
+    "sMaxMInt" "(" InsertDzMInt "," InsertDzMInt ")" -> MInt {cons("MInt1674Syn")}
+    "LINKEDRESOURCE" -> ResProperty {cons("ResProperty1675Syn")}
+    "#binderSplit1" "(" InsertDzKLabel "," InsertDzInt "," InsertDzKList "," InsertDzKList "," InsertDzKList "," InsertDzSet ")" -> K {cons("K1676Syn")}
+    "size" "(" InsertDzSet ")" -> Int {cons("Int1677Syn")}
+    "#ESPIPE" -> IOError {cons("IOError1678Syn")}
+    "getApi" "(" InsertDzAPIStmt ")" -> SysApi {cons("SysApi1679Syn")}
+    "int" -> Type {cons("Type1680Syn")}
+    K "in" List -> Bool {cons("Bool1682Syn")}
+    "event" "(" InsertDzBag "," InsertDzId ")" -> Id {cons("Id1683Syn")}
+    "if" "(" InsertDzBExp ")" InsertDzBlock "else" Block -> Stmt {cons("Stmt1685Syn")}
+    TaskProStmt "" TaskProStmts -> TaskProStmts {cons("TaskProStmts1ListSyn")}
+    ".TaskProStmts" -> TaskProStmts {cons("TaskProStmts1Empty")}
+    "TerminateTask" -> SysApi {cons("SysApi1686Syn")}
+    AExp    -> InsertDzAExp
+    CounterProStmts    -> InsertDzCounterProStmts
+    Action    -> InsertDzAction
+    Set    -> InsertDzSet
+    AlarmProStmts    -> InsertDzAlarmProStmts
+    AlarmProperties    -> InsertDzAlarmProperties
+    MInt    -> InsertDzMInt
+    APIStmt    -> InsertDzAPIStmt
+    String    -> InsertDzString
+    K    -> InsertDzK
+    KList    -> InsertDzKList
+    Int    -> InsertDzInt
+    EventProStmt    -> InsertDzEventProStmt
+    ErrorType    -> InsertDzErrorType
+    ResProperty    -> InsertDzResProperty
+    ListId    -> InsertDzListId
+    Bool    -> InsertDzBool
+    Char    -> InsertDzChar
+    OSEKStmt    -> InsertDzOSEKStmt
+    List    -> InsertDzList
+    TCPAnswer    -> InsertDzTCPAnswer
+    ResProStmt    -> InsertDzResProStmt
+    Fol    -> InsertDzFol
+    TaskProStmts    -> InsertDzTaskProStmts
+    BExp    -> InsertDzBExp
+    LtlFormula    -> InsertDzLtlFormula
+    MaskType    -> InsertDzMaskType
+    Bag    -> InsertDzBag
+    ModelCheckerState    -> InsertDzModelCheckerState
+    ListTaskPair    -> InsertDzListTaskPair
+    KLabel    -> InsertDzKLabel
+    Float    -> InsertDzFloat
+    Type    -> InsertDzType
+    Block    -> InsertDzBlock
+    Id    -> InsertDzId
+    Map    -> InsertDzMap
+    KItem    -> InsertDzKItem
+    TaskState    -> InsertDzTaskState
+    SchedValue    -> InsertDzSchedValue
+
+
+    VARID  ":Nat"        -> NatDzVar            {cons("Nat12Var")}
+    VARID  ":Nat{" TagListDz "}"        -> NatDzVar            {cons("Nat12VarAttr")}
+    VARID  ":AExp"        -> AExpDzVar            {cons("AExp12Var")}
+    VARID  ":AExp{" TagListDz "}"        -> AExpDzVar            {cons("AExp12VarAttr")}
+    VARID  ":CounterProStmts"        -> CounterProStmtsDzVar            {cons("CounterProStmts12Var")}
+    VARID  ":CounterProStmts{" TagListDz "}"        -> CounterProStmtsDzVar            {cons("CounterProStmts12VarAttr")}
+    VARID  ":AlarmProStmts"        -> AlarmProStmtsDzVar            {cons("AlarmProStmts12Var")}
+    VARID  ":AlarmProStmts{" TagListDz "}"        -> AlarmProStmtsDzVar            {cons("AlarmProStmts12VarAttr")}
+    VARID  ":CounterProStmt"        -> CounterProStmtDzVar            {cons("CounterProStmt12Var")}
+    VARID  ":CounterProStmt{" TagListDz "}"        -> CounterProStmtDzVar            {cons("CounterProStmt12VarAttr")}
+    VARID  ":ModelCheckResult"        -> ModelCheckResultDzVar            {cons("ModelCheckResult12Var")}
+    VARID  ":ModelCheckResult{" TagListDz "}"        -> ModelCheckResultDzVar            {cons("ModelCheckResult12VarAttr")}
+    VARID  ":LowerCase"        -> LowerCaseDzVar            {cons("LowerCase12Var")}
+    VARID  ":LowerCase{" TagListDz "}"        -> LowerCaseDzVar            {cons("LowerCase12VarAttr")}
+    VARID  ":CamelCaseId"        -> CamelCaseIdDzVar            {cons("CamelCaseId12Var")}
+    VARID  ":CamelCaseId{" TagListDz "}"        -> CamelCaseIdDzVar            {cons("CamelCaseId12VarAttr")}
+    VARID  ":String"        -> StringDzVar            {cons("String12Var")}
+    VARID  ":String{" TagListDz "}"        -> StringDzVar            {cons("String12VarAttr")}
+    VARID  ":DefStmt"        -> DdefStmtDzVar            {cons("DdefStmt12Var")}
+    VARID  ":DefStmt{" TagListDz "}"        -> DdefStmtDzVar            {cons("DdefStmt12VarAttr")}
+    VARID  ":#LtlFormula"        -> DzLtlFormulaDzVar            {cons("DzLtlFormula12Var")}
+    VARID  ":#LtlFormula{" TagListDz "}"        -> DzLtlFormulaDzVar            {cons("DzLtlFormula12VarAttr")}
+    VARID  ":Bool"        -> BoolDzVar            {cons("Bool12Var")}
+    VARID  ":Bool{" TagListDz "}"        -> BoolDzVar            {cons("Bool12VarAttr")}
+    VARID  ":Stream"        -> StreamDzVar            {cons("Stream12Var")}
+    VARID  ":Stream{" TagListDz "}"        -> StreamDzVar            {cons("Stream12VarAttr")}
+    VARID  ":List"        -> ListDzVar            {cons("List12Var")}
+    VARID  ":List{" TagListDz "}"        -> ListDzVar            {cons("List12VarAttr")}
+    VARID  ":DeclStmt"        -> DdeclStmtDzVar            {cons("DdeclStmt12Var")}
+    VARID  ":DeclStmt{" TagListDz "}"        -> DdeclStmtDzVar            {cons("DdeclStmt12VarAttr")}
+    VARID  ":ResProStmt"        -> ResProStmtDzVar            {cons("ResProStmt12Var")}
+    VARID  ":ResProStmt{" TagListDz "}"        -> ResProStmtDzVar            {cons("ResProStmt12VarAttr")}
+    VARID  ":#String"        -> DzStringDzVar            {cons("DzString12Var")}
+    VARID  ":#String{" TagListDz "}"        -> DzStringDzVar            {cons("DzString12VarAttr")}
+    VARID  ":#Bool"        -> DzBoolDzVar            {cons("DzBool12Var")}
+    VARID  ":#Bool{" TagListDz "}"        -> DzBoolDzVar            {cons("DzBool12VarAttr")}
+    VARID  ":#ModelCheckerState"        -> DzModelCheckerStateDzVar            {cons("DzModelCheckerState12Var")}
+    VARID  ":#ModelCheckerState{" TagListDz "}"        -> DzModelCheckerStateDzVar            {cons("DzModelCheckerState12VarAttr")}
+    VARID  ":Fol"        -> FolDzVar            {cons("Fol12Var")}
+    VARID  ":Fol{" TagListDz "}"        -> FolDzVar            {cons("Fol12VarAttr")}
+    VARID  ":LtlFormula"        -> LtlFormulaDzVar            {cons("LtlFormula12Var")}
+    VARID  ":LtlFormula{" TagListDz "}"        -> LtlFormulaDzVar            {cons("LtlFormula12VarAttr")}
+    VARID  ":Prop"        -> PropDzVar            {cons("Prop12Var")}
+    VARID  ":Prop{" TagListDz "}"        -> PropDzVar            {cons("Prop12VarAttr")}
+    VARID  ":Actions"        -> ActionsDzVar            {cons("Actions12Var")}
+    VARID  ":Actions{" TagListDz "}"        -> ActionsDzVar            {cons("Actions12VarAttr")}
+    VARID  ":AlarmProStmt"        -> AlarmProStmtDzVar            {cons("AlarmProStmt12Var")}
+    VARID  ":AlarmProStmt{" TagListDz "}"        -> AlarmProStmtDzVar            {cons("AlarmProStmt12VarAttr")}
+    VARID  ":MaskType"        -> MaskTypeDzVar            {cons("MaskType12Var")}
+    VARID  ":MaskType{" TagListDz "}"        -> MaskTypeDzVar            {cons("MaskType12VarAttr")}
+    VARID  ":#ModelCheckResult"        -> DzModelCheckResultDzVar            {cons("DzModelCheckResult12Var")}
+    VARID  ":#ModelCheckResult{" TagListDz "}"        -> DzModelCheckResultDzVar            {cons("DzModelCheckResult12VarAttr")}
+    VARID  ":SysApi"        -> SysApiDzVar            {cons("SysApi12Var")}
+    VARID  ":SysApi{" TagListDz "}"        -> SysApiDzVar            {cons("SysApi12VarAttr")}
+    VARID  ":ListTaskPair"        -> ListTaskPairDzVar            {cons("ListTaskPair12Var")}
+    VARID  ":ListTaskPair{" TagListDz "}"        -> ListTaskPairDzVar            {cons("ListTaskPair12VarAttr")}
+    VARID  ":OSEK"        -> OSEKDzVar            {cons("OSEK12Var")}
+    VARID  ":OSEK{" TagListDz "}"        -> OSEKDzVar            {cons("OSEK12VarAttr")}
+    VARID  ":Float"        -> FloatDzVar            {cons("Float12Var")}
+    VARID  ":Float{" TagListDz "}"        -> FloatDzVar            {cons("Float12VarAttr")}
+    VARID  ":#Prop"        -> DzPropDzVar            {cons("DzProp12Var")}
+    VARID  ":#Prop{" TagListDz "}"        -> DzPropDzVar            {cons("DzProp12VarAttr")}
+    VARID  ":Block"        -> BlockDzVar            {cons("Block12Var")}
+    VARID  ":Block{" TagListDz "}"        -> BlockDzVar            {cons("Block12VarAttr")}
+    VARID  ":Id"        -> IdDzVar            {cons("Id12Var")}
+    VARID  ":Id{" TagListDz "}"        -> IdDzVar            {cons("Id12VarAttr")}
+    VARID  ":Map"        -> MapDzVar            {cons("Map12Var")}
+    VARID  ":Map{" TagListDz "}"        -> MapDzVar            {cons("Map12VarAttr")}
+    VARID  ":SchedValue"        -> SchedValueDzVar            {cons("SchedValue12Var")}
+    VARID  ":SchedValue{" TagListDz "}"        -> SchedValueDzVar            {cons("SchedValue12VarAttr")}
+    VARID  ":#Float"        -> DzFloatDzVar            {cons("DzFloat12Var")}
+    VARID  ":#Float{" TagListDz "}"        -> DzFloatDzVar            {cons("DzFloat12VarAttr")}
+    VARID  ":Action"        -> ActionDzVar            {cons("Action12Var")}
+    VARID  ":Action{" TagListDz "}"        -> ActionDzVar            {cons("Action12VarAttr")}
+    VARID  ":Set"        -> SetDzVar            {cons("Set12Var")}
+    VARID  ":Set{" TagListDz "}"        -> SetDzVar            {cons("Set12VarAttr")}
+    VARID  ":Variable"        -> VariableDzVar            {cons("Variable12Var")}
+    VARID  ":Variable{" TagListDz "}"        -> VariableDzVar            {cons("Variable12VarAttr")}
+    VARID  ":AlarmProperties"        -> AlarmPropertiesDzVar            {cons("AlarmProperties12Var")}
+    VARID  ":AlarmProperties{" TagListDz "}"        -> AlarmPropertiesDzVar            {cons("AlarmProperties12VarAttr")}
+    VARID  ":MInt"        -> MIntDzVar            {cons("MInt12Var")}
+    VARID  ":MInt{" TagListDz "}"        -> MIntDzVar            {cons("MInt12VarAttr")}
+    VARID  ":APIStmt"        -> APIStmtDzVar            {cons("APIStmt12Var")}
+    VARID  ":APIStmt{" TagListDz "}"        -> APIStmtDzVar            {cons("APIStmt12VarAttr")}
+    VARID  ":TaskProStmt"        -> TaskProStmtDzVar            {cons("TaskProStmt12Var")}
+    VARID  ":TaskProStmt{" TagListDz "}"        -> TaskProStmtDzVar            {cons("TaskProStmt12VarAttr")}
+    VARID  ":Int"        -> IntDzVar            {cons("Int12Var")}
+    VARID  ":Int{" TagListDz "}"        -> IntDzVar            {cons("Int12VarAttr")}
+    VARID  ":Stmt"        -> StmtDzVar            {cons("Stmt12Var")}
+    VARID  ":Stmt{" TagListDz "}"        -> StmtDzVar            {cons("Stmt12VarAttr")}
+    VARID  ":EventProStmt"        -> EventProStmtDzVar            {cons("EventProStmt12Var")}
+    VARID  ":EventProStmt{" TagListDz "}"        -> EventProStmtDzVar            {cons("EventProStmt12VarAttr")}
+    VARID  ":Signal"        -> SignalDzVar            {cons("Signal12Var")}
+    VARID  ":Signal{" TagListDz "}"        -> SignalDzVar            {cons("Signal12VarAttr")}
+    VARID  ":ListId"        -> ListIdDzVar            {cons("ListId12Var")}
+    VARID  ":ListId{" TagListDz "}"        -> ListIdDzVar            {cons("ListId12VarAttr")}
+    VARID  ":ResProperty"        -> ResPropertyDzVar            {cons("ResProperty12Var")}
+    VARID  ":ResProperty{" TagListDz "}"        -> ResPropertyDzVar            {cons("ResProperty12VarAttr")}
+    VARID  ":ErrorType"        -> ErrorTypeDzVar            {cons("ErrorType12Var")}
+    VARID  ":ErrorType{" TagListDz "}"        -> ErrorTypeDzVar            {cons("ErrorType12VarAttr")}
+    VARID  ":Char"        -> CharDzVar            {cons("Char12Var")}
+    VARID  ":Char{" TagListDz "}"        -> CharDzVar            {cons("Char12VarAttr")}
+    VARID  ":OSEKStmt"        -> OSEKStmtDzVar            {cons("OSEKStmt12Var")}
+    VARID  ":OSEKStmt{" TagListDz "}"        -> OSEKStmtDzVar            {cons("OSEKStmt12VarAttr")}
+    VARID  ":TCPAnswer"        -> TCPAnswerDzVar            {cons("TCPAnswer12Var")}
+    VARID  ":TCPAnswer{" TagListDz "}"        -> TCPAnswerDzVar            {cons("TCPAnswer12VarAttr")}
+    VARID  ":#Int"        -> DzIntDzVar            {cons("DzInt12Var")}
+    VARID  ":#Int{" TagListDz "}"        -> DzIntDzVar            {cons("DzInt12VarAttr")}
+    VARID  ":EventValue"        -> EventValueDzVar            {cons("EventValue12Var")}
+    VARID  ":EventValue{" TagListDz "}"        -> EventValueDzVar            {cons("EventValue12VarAttr")}
+    VARID  ":PascalCaseId"        -> PascalCaseIdDzVar            {cons("PascalCaseId12Var")}
+    VARID  ":PascalCaseId{" TagListDz "}"        -> PascalCaseIdDzVar            {cons("PascalCaseId12VarAttr")}
+    VARID  ":TaskProStmts"        -> TaskProStmtsDzVar            {cons("TaskProStmts12Var")}
+    VARID  ":TaskProStmts{" TagListDz "}"        -> TaskProStmtsDzVar            {cons("TaskProStmts12VarAttr")}
+    VARID  ":UpperCase"        -> UpperCaseDzVar            {cons("UpperCase12Var")}
+    VARID  ":UpperCase{" TagListDz "}"        -> UpperCaseDzVar            {cons("UpperCase12VarAttr")}
+    VARID  ":BExp"        -> BExpDzVar            {cons("BExp12Var")}
+    VARID  ":BExp{" TagListDz "}"        -> BExpDzVar            {cons("BExp12VarAttr")}
+    VARID  ":ModelCheckerState"        -> ModelCheckerStateDzVar            {cons("ModelCheckerState12Var")}
+    VARID  ":ModelCheckerState{" TagListDz "}"        -> ModelCheckerStateDzVar            {cons("ModelCheckerState12VarAttr")}
+    VARID  ":TCPError"        -> TCPErrorDzVar            {cons("TCPError12Var")}
+    VARID  ":TCPError{" TagListDz "}"        -> TCPErrorDzVar            {cons("TCPError12VarAttr")}
+    VARID  ":Type"        -> TypeDzVar            {cons("Type12Var")}
+    VARID  ":Type{" TagListDz "}"        -> TypeDzVar            {cons("Type12VarAttr")}
+    VARID  ":IOError"        -> IOErrorDzVar            {cons("IOError12Var")}
+    VARID  ":IOError{" TagListDz "}"        -> IOErrorDzVar            {cons("IOError12VarAttr")}
+    VARID  ":AlarmProperty"        -> AlarmPropertyDzVar            {cons("AlarmProperty12Var")}
+    VARID  ":AlarmProperty{" TagListDz "}"        -> AlarmPropertyDzVar            {cons("AlarmProperty12VarAttr")}
+    VARID  ":TaskPair"        -> TaskPairDzVar            {cons("TaskPair12Var")}
+    VARID  ":TaskPair{" TagListDz "}"        -> TaskPairDzVar            {cons("TaskPair12VarAttr")}
+    VARID  ":TaskState"        -> TaskStateDzVar            {cons("TaskState12Var")}
+    VARID  ":TaskState{" TagListDz "}"        -> TaskStateDzVar            {cons("TaskState12VarAttr")}
+
+     K CastTypeDz "Nat"    -> VariableDz    {cons("Nat1Cast")}
+     K CastTypeDz "Nat{" TagListDz "}"    -> VariableDz    {cons("Nat1CastAttr")}
+     K CastTypeDz "AExp"    -> VariableDz    {cons("AExp1Cast")}
+     K CastTypeDz "AExp{" TagListDz "}"    -> VariableDz    {cons("AExp1CastAttr")}
+     K CastTypeDz "CounterProStmts"    -> VariableDz    {cons("CounterProStmts1Cast")}
+     K CastTypeDz "CounterProStmts{" TagListDz "}"    -> VariableDz    {cons("CounterProStmts1CastAttr")}
+     K CastTypeDz "AlarmProStmts"    -> VariableDz    {cons("AlarmProStmts1Cast")}
+     K CastTypeDz "AlarmProStmts{" TagListDz "}"    -> VariableDz    {cons("AlarmProStmts1CastAttr")}
+     K CastTypeDz "CounterProStmt"    -> VariableDz    {cons("CounterProStmt1Cast")}
+     K CastTypeDz "CounterProStmt{" TagListDz "}"    -> VariableDz    {cons("CounterProStmt1CastAttr")}
+     K CastTypeDz "ModelCheckResult"    -> VariableDz    {cons("ModelCheckResult1Cast")}
+     K CastTypeDz "ModelCheckResult{" TagListDz "}"    -> VariableDz    {cons("ModelCheckResult1CastAttr")}
+     K CastTypeDz "LowerCase"    -> VariableDz    {cons("LowerCase1Cast")}
+     K CastTypeDz "LowerCase{" TagListDz "}"    -> VariableDz    {cons("LowerCase1CastAttr")}
+     K CastTypeDz "CamelCaseId"    -> VariableDz    {cons("CamelCaseId1Cast")}
+     K CastTypeDz "CamelCaseId{" TagListDz "}"    -> VariableDz    {cons("CamelCaseId1CastAttr")}
+     K CastTypeDz "String"    -> VariableDz    {cons("String1Cast")}
+     K CastTypeDz "String{" TagListDz "}"    -> VariableDz    {cons("String1CastAttr")}
+     K CastTypeDz "DefStmt"    -> VariableDz    {cons("DdefStmt1Cast")}
+     K CastTypeDz "DefStmt{" TagListDz "}"    -> VariableDz    {cons("DdefStmt1CastAttr")}
+     K CastTypeDz "#LtlFormula"    -> VariableDz    {cons("DzLtlFormula1Cast")}
+     K CastTypeDz "#LtlFormula{" TagListDz "}"    -> VariableDz    {cons("DzLtlFormula1CastAttr")}
+     K CastTypeDz "Bool"    -> VariableDz    {cons("Bool1Cast")}
+     K CastTypeDz "Bool{" TagListDz "}"    -> VariableDz    {cons("Bool1CastAttr")}
+     K CastTypeDz "Stream"    -> VariableDz    {cons("Stream1Cast")}
+     K CastTypeDz "Stream{" TagListDz "}"    -> VariableDz    {cons("Stream1CastAttr")}
+     K CastTypeDz "List"    -> VariableDz    {cons("List1Cast")}
+     K CastTypeDz "List{" TagListDz "}"    -> VariableDz    {cons("List1CastAttr")}
+     K CastTypeDz "DeclStmt"    -> VariableDz    {cons("DdeclStmt1Cast")}
+     K CastTypeDz "DeclStmt{" TagListDz "}"    -> VariableDz    {cons("DdeclStmt1CastAttr")}
+     K CastTypeDz "ResProStmt"    -> VariableDz    {cons("ResProStmt1Cast")}
+     K CastTypeDz "ResProStmt{" TagListDz "}"    -> VariableDz    {cons("ResProStmt1CastAttr")}
+     K CastTypeDz "#String"    -> VariableDz    {cons("DzString1Cast")}
+     K CastTypeDz "#String{" TagListDz "}"    -> VariableDz    {cons("DzString1CastAttr")}
+     K CastTypeDz "#Bool"    -> VariableDz    {cons("DzBool1Cast")}
+     K CastTypeDz "#Bool{" TagListDz "}"    -> VariableDz    {cons("DzBool1CastAttr")}
+     K CastTypeDz "#ModelCheckerState"    -> VariableDz    {cons("DzModelCheckerState1Cast")}
+     K CastTypeDz "#ModelCheckerState{" TagListDz "}"    -> VariableDz    {cons("DzModelCheckerState1CastAttr")}
+     K CastTypeDz "Fol"    -> VariableDz    {cons("Fol1Cast")}
+     K CastTypeDz "Fol{" TagListDz "}"    -> VariableDz    {cons("Fol1CastAttr")}
+     K CastTypeDz "LtlFormula"    -> VariableDz    {cons("LtlFormula1Cast")}
+     K CastTypeDz "LtlFormula{" TagListDz "}"    -> VariableDz    {cons("LtlFormula1CastAttr")}
+     K CastTypeDz "Prop"    -> VariableDz    {cons("Prop1Cast")}
+     K CastTypeDz "Prop{" TagListDz "}"    -> VariableDz    {cons("Prop1CastAttr")}
+     K CastTypeDz "Actions"    -> VariableDz    {cons("Actions1Cast")}
+     K CastTypeDz "Actions{" TagListDz "}"    -> VariableDz    {cons("Actions1CastAttr")}
+     K CastTypeDz "AlarmProStmt"    -> VariableDz    {cons("AlarmProStmt1Cast")}
+     K CastTypeDz "AlarmProStmt{" TagListDz "}"    -> VariableDz    {cons("AlarmProStmt1CastAttr")}
+     K CastTypeDz "MaskType"    -> VariableDz    {cons("MaskType1Cast")}
+     K CastTypeDz "MaskType{" TagListDz "}"    -> VariableDz    {cons("MaskType1CastAttr")}
+     K CastTypeDz "#ModelCheckResult"    -> VariableDz    {cons("DzModelCheckResult1Cast")}
+     K CastTypeDz "#ModelCheckResult{" TagListDz "}"    -> VariableDz    {cons("DzModelCheckResult1CastAttr")}
+     K CastTypeDz "SysApi"    -> VariableDz    {cons("SysApi1Cast")}
+     K CastTypeDz "SysApi{" TagListDz "}"    -> VariableDz    {cons("SysApi1CastAttr")}
+     K CastTypeDz "ListTaskPair"    -> VariableDz    {cons("ListTaskPair1Cast")}
+     K CastTypeDz "ListTaskPair{" TagListDz "}"    -> VariableDz    {cons("ListTaskPair1CastAttr")}
+     K CastTypeDz "OSEK"    -> VariableDz    {cons("OSEK1Cast")}
+     K CastTypeDz "OSEK{" TagListDz "}"    -> VariableDz    {cons("OSEK1CastAttr")}
+     K CastTypeDz "Float"    -> VariableDz    {cons("Float1Cast")}
+     K CastTypeDz "Float{" TagListDz "}"    -> VariableDz    {cons("Float1CastAttr")}
+     K CastTypeDz "#Prop"    -> VariableDz    {cons("DzProp1Cast")}
+     K CastTypeDz "#Prop{" TagListDz "}"    -> VariableDz    {cons("DzProp1CastAttr")}
+     K CastTypeDz "Block"    -> VariableDz    {cons("Block1Cast")}
+     K CastTypeDz "Block{" TagListDz "}"    -> VariableDz    {cons("Block1CastAttr")}
+     K CastTypeDz "Id"    -> VariableDz    {cons("Id1Cast")}
+     K CastTypeDz "Id{" TagListDz "}"    -> VariableDz    {cons("Id1CastAttr")}
+     K CastTypeDz "Map"    -> VariableDz    {cons("Map1Cast")}
+     K CastTypeDz "Map{" TagListDz "}"    -> VariableDz    {cons("Map1CastAttr")}
+     K CastTypeDz "SchedValue"    -> VariableDz    {cons("SchedValue1Cast")}
+     K CastTypeDz "SchedValue{" TagListDz "}"    -> VariableDz    {cons("SchedValue1CastAttr")}
+     K CastTypeDz "#Float"    -> VariableDz    {cons("DzFloat1Cast")}
+     K CastTypeDz "#Float{" TagListDz "}"    -> VariableDz    {cons("DzFloat1CastAttr")}
+     K CastTypeDz "Action"    -> VariableDz    {cons("Action1Cast")}
+     K CastTypeDz "Action{" TagListDz "}"    -> VariableDz    {cons("Action1CastAttr")}
+     K CastTypeDz "Set"    -> VariableDz    {cons("Set1Cast")}
+     K CastTypeDz "Set{" TagListDz "}"    -> VariableDz    {cons("Set1CastAttr")}
+     K CastTypeDz "Variable"    -> VariableDz    {cons("Variable1Cast")}
+     K CastTypeDz "Variable{" TagListDz "}"    -> VariableDz    {cons("Variable1CastAttr")}
+     K CastTypeDz "AlarmProperties"    -> VariableDz    {cons("AlarmProperties1Cast")}
+     K CastTypeDz "AlarmProperties{" TagListDz "}"    -> VariableDz    {cons("AlarmProperties1CastAttr")}
+     K CastTypeDz "MInt"    -> VariableDz    {cons("MInt1Cast")}
+     K CastTypeDz "MInt{" TagListDz "}"    -> VariableDz    {cons("MInt1CastAttr")}
+     K CastTypeDz "APIStmt"    -> VariableDz    {cons("APIStmt1Cast")}
+     K CastTypeDz "APIStmt{" TagListDz "}"    -> VariableDz    {cons("APIStmt1CastAttr")}
+     K CastTypeDz "TaskProStmt"    -> VariableDz    {cons("TaskProStmt1Cast")}
+     K CastTypeDz "TaskProStmt{" TagListDz "}"    -> VariableDz    {cons("TaskProStmt1CastAttr")}
+     K CastTypeDz "Int"    -> VariableDz    {cons("Int1Cast")}
+     K CastTypeDz "Int{" TagListDz "}"    -> VariableDz    {cons("Int1CastAttr")}
+     K CastTypeDz "Stmt"    -> VariableDz    {cons("Stmt1Cast")}
+     K CastTypeDz "Stmt{" TagListDz "}"    -> VariableDz    {cons("Stmt1CastAttr")}
+     K CastTypeDz "EventProStmt"    -> VariableDz    {cons("EventProStmt1Cast")}
+     K CastTypeDz "EventProStmt{" TagListDz "}"    -> VariableDz    {cons("EventProStmt1CastAttr")}
+     K CastTypeDz "Signal"    -> VariableDz    {cons("Signal1Cast")}
+     K CastTypeDz "Signal{" TagListDz "}"    -> VariableDz    {cons("Signal1CastAttr")}
+     K CastTypeDz "ListId"    -> VariableDz    {cons("ListId1Cast")}
+     K CastTypeDz "ListId{" TagListDz "}"    -> VariableDz    {cons("ListId1CastAttr")}
+     K CastTypeDz "ResProperty"    -> VariableDz    {cons("ResProperty1Cast")}
+     K CastTypeDz "ResProperty{" TagListDz "}"    -> VariableDz    {cons("ResProperty1CastAttr")}
+     K CastTypeDz "ErrorType"    -> VariableDz    {cons("ErrorType1Cast")}
+     K CastTypeDz "ErrorType{" TagListDz "}"    -> VariableDz    {cons("ErrorType1CastAttr")}
+     K CastTypeDz "Char"    -> VariableDz    {cons("Char1Cast")}
+     K CastTypeDz "Char{" TagListDz "}"    -> VariableDz    {cons("Char1CastAttr")}
+     K CastTypeDz "OSEKStmt"    -> VariableDz    {cons("OSEKStmt1Cast")}
+     K CastTypeDz "OSEKStmt{" TagListDz "}"    -> VariableDz    {cons("OSEKStmt1CastAttr")}
+     K CastTypeDz "TCPAnswer"    -> VariableDz    {cons("TCPAnswer1Cast")}
+     K CastTypeDz "TCPAnswer{" TagListDz "}"    -> VariableDz    {cons("TCPAnswer1CastAttr")}
+     K CastTypeDz "#Int"    -> VariableDz    {cons("DzInt1Cast")}
+     K CastTypeDz "#Int{" TagListDz "}"    -> VariableDz    {cons("DzInt1CastAttr")}
+     K CastTypeDz "EventValue"    -> VariableDz    {cons("EventValue1Cast")}
+     K CastTypeDz "EventValue{" TagListDz "}"    -> VariableDz    {cons("EventValue1CastAttr")}
+     K CastTypeDz "PascalCaseId"    -> VariableDz    {cons("PascalCaseId1Cast")}
+     K CastTypeDz "PascalCaseId{" TagListDz "}"    -> VariableDz    {cons("PascalCaseId1CastAttr")}
+     K CastTypeDz "TaskProStmts"    -> VariableDz    {cons("TaskProStmts1Cast")}
+     K CastTypeDz "TaskProStmts{" TagListDz "}"    -> VariableDz    {cons("TaskProStmts1CastAttr")}
+     K CastTypeDz "UpperCase"    -> VariableDz    {cons("UpperCase1Cast")}
+     K CastTypeDz "UpperCase{" TagListDz "}"    -> VariableDz    {cons("UpperCase1CastAttr")}
+     K CastTypeDz "BExp"    -> VariableDz    {cons("BExp1Cast")}
+     K CastTypeDz "BExp{" TagListDz "}"    -> VariableDz    {cons("BExp1CastAttr")}
+     K CastTypeDz "ModelCheckerState"    -> VariableDz    {cons("ModelCheckerState1Cast")}
+     K CastTypeDz "ModelCheckerState{" TagListDz "}"    -> VariableDz    {cons("ModelCheckerState1CastAttr")}
+     K CastTypeDz "TCPError"    -> VariableDz    {cons("TCPError1Cast")}
+     K CastTypeDz "TCPError{" TagListDz "}"    -> VariableDz    {cons("TCPError1CastAttr")}
+     K CastTypeDz "Type"    -> VariableDz    {cons("Type1Cast")}
+     K CastTypeDz "Type{" TagListDz "}"    -> VariableDz    {cons("Type1CastAttr")}
+     K CastTypeDz "IOError"    -> VariableDz    {cons("IOError1Cast")}
+     K CastTypeDz "IOError{" TagListDz "}"    -> VariableDz    {cons("IOError1CastAttr")}
+     K CastTypeDz "AlarmProperty"    -> VariableDz    {cons("AlarmProperty1Cast")}
+     K CastTypeDz "AlarmProperty{" TagListDz "}"    -> VariableDz    {cons("AlarmProperty1CastAttr")}
+     K CastTypeDz "TaskPair"    -> VariableDz    {cons("TaskPair1Cast")}
+     K CastTypeDz "TaskPair{" TagListDz "}"    -> VariableDz    {cons("TaskPair1CastAttr")}
+     K CastTypeDz "TaskState"    -> VariableDz    {cons("TaskState1Cast")}
+     K CastTypeDz "TaskState{" TagListDz "}"    -> VariableDz    {cons("TaskState1CastAttr")}
+     NatDzVar   -> Nat
+     AExpDzVar   -> AExp
+     CounterProStmtsDzVar   -> CounterProStmts
+     AlarmProStmtsDzVar   -> AlarmProStmts
+     CounterProStmtDzVar   -> CounterProStmt
+     ModelCheckResultDzVar   -> ModelCheckResult
+     LowerCaseDzVar   -> LowerCase
+     CamelCaseIdDzVar   -> CamelCaseId
+     StringDzVar   -> String
+     DdefStmtDzVar   -> DdefStmt
+     DzLtlFormulaDzVar   -> DzLtlFormula
+     BoolDzVar   -> Bool
+     StreamDzVar   -> Stream
+     ListDzVar   -> List
+     DdeclStmtDzVar   -> DdeclStmt
+     ResProStmtDzVar   -> ResProStmt
+     DzStringDzVar   -> DzString
+     DzBoolDzVar   -> DzBool
+     DzModelCheckerStateDzVar   -> DzModelCheckerState
+     FolDzVar   -> Fol
+     LtlFormulaDzVar   -> LtlFormula
+     PropDzVar   -> Prop
+     ActionsDzVar   -> Actions
+     AlarmProStmtDzVar   -> AlarmProStmt
+     MaskTypeDzVar   -> MaskType
+     DzModelCheckResultDzVar   -> DzModelCheckResult
+     SysApiDzVar   -> SysApi
+     ListTaskPairDzVar   -> ListTaskPair
+     OSEKDzVar   -> OSEK
+     FloatDzVar   -> Float
+     DzPropDzVar   -> DzProp
+     BlockDzVar   -> Block
+     IdDzVar   -> Id
+     MapDzVar   -> Map
+     SchedValueDzVar   -> SchedValue
+     DzFloatDzVar   -> DzFloat
+     ActionDzVar   -> Action
+     SetDzVar   -> Set
+     VariableDzVar   -> Variable
+     AlarmPropertiesDzVar   -> AlarmProperties
+     MIntDzVar   -> MInt
+     APIStmtDzVar   -> APIStmt
+     TaskProStmtDzVar   -> TaskProStmt
+     IntDzVar   -> Int
+     StmtDzVar   -> Stmt
+     EventProStmtDzVar   -> EventProStmt
+     SignalDzVar   -> Signal
+     ListIdDzVar   -> ListId
+     ResPropertyDzVar   -> ResProperty
+     ErrorTypeDzVar   -> ErrorType
+     CharDzVar   -> Char
+     OSEKStmtDzVar   -> OSEKStmt
+     TCPAnswerDzVar   -> TCPAnswer
+     DzIntDzVar   -> DzInt
+     EventValueDzVar   -> EventValue
+     PascalCaseIdDzVar   -> PascalCaseId
+     TaskProStmtsDzVar   -> TaskProStmts
+     UpperCaseDzVar   -> UpperCase
+     BExpDzVar   -> BExp
+     ModelCheckerStateDzVar   -> ModelCheckerState
+     TCPErrorDzVar   -> TCPError
+     TypeDzVar   -> Type
+     IOErrorDzVar   -> IOError
+     AlarmPropertyDzVar   -> AlarmProperty
+     TaskPairDzVar   -> TaskPair
+     TaskStateDzVar   -> TaskState
+     K CastTypeDz "K"                         -> VariableDz    {cons("K1Cast")}
+     K CastTypeDz "KItem"                     -> VariableDz    {cons("KItem1Cast")}
+     K CastTypeDz "K{" TagListDz "}"        -> VariableDz    {cons("K1CastAttr")}
+     K CastTypeDz "KItem{" TagListDz "}"    -> VariableDz    {cons("KItem1CastAttr")}
+
+    VariableDz -> K
+
+
+    DzDzString        -> DzString    {cons("DzString1Const")}
+    DzDzBool        -> DzBool    {cons("DzBool1Const")}
+    DzKLabel        -> KLabel    {cons("KLabel1Const")}
+    DzDzInt        -> DzInt    {cons("DzInt1Const")}
+    DzDzId        -> DzId    {cons("DzId1Const")}
+    DzDzLtlFormula        -> DzLtlFormula    {cons("DzLtlFormula1Const")}
+    DzDzFloat        -> DzFloat    {cons("DzFloat1Const")}
+
+
+context-free restrictions
+    NatDzVar -/- [a-zA-Z0-9]
+    AExpDzVar -/- [a-zA-Z0-9]
+    CounterProStmtsDzVar -/- [a-zA-Z0-9]
+    AlarmProStmtsDzVar -/- [a-zA-Z0-9]
+    CounterProStmtDzVar -/- [a-zA-Z0-9]
+    ModelCheckResultDzVar -/- [a-zA-Z0-9]
+    LowerCaseDzVar -/- [a-zA-Z0-9]
+    CamelCaseIdDzVar -/- [a-zA-Z0-9]
+    StringDzVar -/- [a-zA-Z0-9]
+    DdefStmtDzVar -/- [a-zA-Z0-9]
+    DzLtlFormulaDzVar -/- [a-zA-Z0-9]
+    BoolDzVar -/- [a-zA-Z0-9]
+    StreamDzVar -/- [a-zA-Z0-9]
+    ListDzVar -/- [a-zA-Z0-9]
+    DdeclStmtDzVar -/- [a-zA-Z0-9]
+    ResProStmtDzVar -/- [a-zA-Z0-9]
+    DzStringDzVar -/- [a-zA-Z0-9]
+    DzBoolDzVar -/- [a-zA-Z0-9]
+    DzModelCheckerStateDzVar -/- [a-zA-Z0-9]
+    FolDzVar -/- [a-zA-Z0-9]
+    LtlFormulaDzVar -/- [a-zA-Z0-9]
+    PropDzVar -/- [a-zA-Z0-9]
+    ActionsDzVar -/- [a-zA-Z0-9]
+    AlarmProStmtDzVar -/- [a-zA-Z0-9]
+    MaskTypeDzVar -/- [a-zA-Z0-9]
+    DzModelCheckResultDzVar -/- [a-zA-Z0-9]
+    SysApiDzVar -/- [a-zA-Z0-9]
+    ListTaskPairDzVar -/- [a-zA-Z0-9]
+    OSEKDzVar -/- [a-zA-Z0-9]
+    FloatDzVar -/- [a-zA-Z0-9]
+    DzPropDzVar -/- [a-zA-Z0-9]
+    BlockDzVar -/- [a-zA-Z0-9]
+    IdDzVar -/- [a-zA-Z0-9]
+    MapDzVar -/- [a-zA-Z0-9]
+    SchedValueDzVar -/- [a-zA-Z0-9]
+    DzFloatDzVar -/- [a-zA-Z0-9]
+    ActionDzVar -/- [a-zA-Z0-9]
+    SetDzVar -/- [a-zA-Z0-9]
+    VariableDzVar -/- [a-zA-Z0-9]
+    AlarmPropertiesDzVar -/- [a-zA-Z0-9]
+    MIntDzVar -/- [a-zA-Z0-9]
+    APIStmtDzVar -/- [a-zA-Z0-9]
+    TaskProStmtDzVar -/- [a-zA-Z0-9]
+    IntDzVar -/- [a-zA-Z0-9]
+    StmtDzVar -/- [a-zA-Z0-9]
+    EventProStmtDzVar -/- [a-zA-Z0-9]
+    SignalDzVar -/- [a-zA-Z0-9]
+    ListIdDzVar -/- [a-zA-Z0-9]
+    ResPropertyDzVar -/- [a-zA-Z0-9]
+    ErrorTypeDzVar -/- [a-zA-Z0-9]
+    CharDzVar -/- [a-zA-Z0-9]
+    OSEKStmtDzVar -/- [a-zA-Z0-9]
+    TCPAnswerDzVar -/- [a-zA-Z0-9]
+    DzIntDzVar -/- [a-zA-Z0-9]
+    EventValueDzVar -/- [a-zA-Z0-9]
+    PascalCaseIdDzVar -/- [a-zA-Z0-9]
+    TaskProStmtsDzVar -/- [a-zA-Z0-9]
+    UpperCaseDzVar -/- [a-zA-Z0-9]
+    BExpDzVar -/- [a-zA-Z0-9]
+    ModelCheckerStateDzVar -/- [a-zA-Z0-9]
+    TCPErrorDzVar -/- [a-zA-Z0-9]
+    TypeDzVar -/- [a-zA-Z0-9]
+    IOErrorDzVar -/- [a-zA-Z0-9]
+    AlarmPropertyDzVar -/- [a-zA-Z0-9]
+    TaskPairDzVar -/- [a-zA-Z0-9]
+    TaskStateDzVar -/- [a-zA-Z0-9]
+    VariableDz -/- [a-zA-Z0-9]
+lexical syntax
+    "Infinity" -> DzDzFloat
+    "FalseLtl" -> DzDzLtlFormula
+    "#token" -> DzKLabel
+    "true" -> DzDzBool
+    "'#andBool" -> DzKLabel
+    "#symEqualitySort" -> DzKLabel
+    "TrueLtl" -> DzDzLtlFormula
+    "NaN" -> DzDzFloat
+    "false" -> DzDzBool
+    "isBinder" -> DzKLabel
+
+
+%% sort predicates
+    "isNat"      -> DzKLabel
+    "isSymbolicNat"      -> DzKLabel
+    "#symNat"      -> DzKLabel
+    "isAExp"      -> DzKLabel
+    "isSymbolicAExp"      -> DzKLabel
+    "#symAExp"      -> DzKLabel
+    "isCounterProStmts"      -> DzKLabel
+    "isSymbolicCounterProStmts"      -> DzKLabel
+    "#symCounterProStmts"      -> DzKLabel
+    "isAlarmProStmts"      -> DzKLabel
+    "isSymbolicAlarmProStmts"      -> DzKLabel
+    "#symAlarmProStmts"      -> DzKLabel
+    "isCounterProStmt"      -> DzKLabel
+    "isSymbolicCounterProStmt"      -> DzKLabel
+    "#symCounterProStmt"      -> DzKLabel
+    "isModelCheckResult"      -> DzKLabel
+    "isSymbolicModelCheckResult"      -> DzKLabel
+    "#symModelCheckResult"      -> DzKLabel
+    "isLowerCase"      -> DzKLabel
+    "isSymbolicLowerCase"      -> DzKLabel
+    "#symLowerCase"      -> DzKLabel
+    "isCamelCaseId"      -> DzKLabel
+    "isSymbolicCamelCaseId"      -> DzKLabel
+    "#symCamelCaseId"      -> DzKLabel
+    "isString"      -> DzKLabel
+    "isSymbolicString"      -> DzKLabel
+    "#symString"      -> DzKLabel
+    "isDefStmt"      -> DzKLabel
+    "isSymbolicDefStmt"      -> DzKLabel
+    "#symDefStmt"      -> DzKLabel
+    "is#LtlFormula"      -> DzKLabel
+    "isSymbolic#LtlFormula"      -> DzKLabel
+    "#sym#LtlFormula"      -> DzKLabel
+    "isBool"      -> DzKLabel
+    "isSymbolicBool"      -> DzKLabel
+    "#symBool"      -> DzKLabel
+    "isStream"      -> DzKLabel
+    "isSymbolicStream"      -> DzKLabel
+    "#symStream"      -> DzKLabel
+    "isList"      -> DzKLabel
+    "isSymbolicList"      -> DzKLabel
+    "#symList"      -> DzKLabel
+    "isDeclStmt"      -> DzKLabel
+    "isSymbolicDeclStmt"      -> DzKLabel
+    "#symDeclStmt"      -> DzKLabel
+    "isResProStmt"      -> DzKLabel
+    "isSymbolicResProStmt"      -> DzKLabel
+    "#symResProStmt"      -> DzKLabel
+    "is#String"      -> DzKLabel
+    "is#Bool"      -> DzKLabel
+    "is#ModelCheckerState"      -> DzKLabel
+    "isFol"      -> DzKLabel
+    "isSymbolicFol"      -> DzKLabel
+    "#symFol"      -> DzKLabel
+    "isLtlFormula"      -> DzKLabel
+    "isSymbolicLtlFormula"      -> DzKLabel
+    "#symLtlFormula"      -> DzKLabel
+    "isProp"      -> DzKLabel
+    "isSymbolicProp"      -> DzKLabel
+    "#symProp"      -> DzKLabel
+    "isActions"      -> DzKLabel
+    "isSymbolicActions"      -> DzKLabel
+    "#symActions"      -> DzKLabel
+    "isAlarmProStmt"      -> DzKLabel
+    "isSymbolicAlarmProStmt"      -> DzKLabel
+    "#symAlarmProStmt"      -> DzKLabel
+    "isMaskType"      -> DzKLabel
+    "isSymbolicMaskType"      -> DzKLabel
+    "#symMaskType"      -> DzKLabel
+    "is#ModelCheckResult"      -> DzKLabel
+    "isSysApi"      -> DzKLabel
+    "isSymbolicSysApi"      -> DzKLabel
+    "#symSysApi"      -> DzKLabel
+    "isListTaskPair"      -> DzKLabel
+    "isSymbolicListTaskPair"      -> DzKLabel
+    "#symListTaskPair"      -> DzKLabel
+    "isOSEK"      -> DzKLabel
+    "isSymbolicOSEK"      -> DzKLabel
+    "#symOSEK"      -> DzKLabel
+    "isFloat"      -> DzKLabel
+    "isSymbolicFloat"      -> DzKLabel
+    "#symFloat"      -> DzKLabel
+    "is#Prop"      -> DzKLabel
+    "isBlock"      -> DzKLabel
+    "isSymbolicBlock"      -> DzKLabel
+    "#symBlock"      -> DzKLabel
+    "isId"      -> DzKLabel
+    "isSymbolicId"      -> DzKLabel
+    "#symId"      -> DzKLabel
+    "isSymbolicKItem"      -> DzKLabel
+    "#symKItem"      -> DzKLabel
+    "isMap"      -> DzKLabel
+    "isSymbolicMap"      -> DzKLabel
+    "#symMap"      -> DzKLabel
+    "isSchedValue"      -> DzKLabel
+    "isSymbolicSchedValue"      -> DzKLabel
+    "#symSchedValue"      -> DzKLabel
+    "is#Float"      -> DzKLabel
+    "isAction"      -> DzKLabel
+    "isSymbolicAction"      -> DzKLabel
+    "#symAction"      -> DzKLabel
+    "isSet"      -> DzKLabel
+    "isSymbolicSet"      -> DzKLabel
+    "#symSet"      -> DzKLabel
+    "isVariable"      -> DzKLabel
+    "isSymbolicVariable"      -> DzKLabel
+    "#symVariable"      -> DzKLabel
+    "isAlarmProperties"      -> DzKLabel
+    "isSymbolicAlarmProperties"      -> DzKLabel
+    "#symAlarmProperties"      -> DzKLabel
+    "isMInt"      -> DzKLabel
+    "isSymbolicMInt"      -> DzKLabel
+    "#symMInt"      -> DzKLabel
+    "isAPIStmt"      -> DzKLabel
+    "isSymbolicAPIStmt"      -> DzKLabel
+    "#symAPIStmt"      -> DzKLabel
+    "isTaskProStmt"      -> DzKLabel
+    "isSymbolicTaskProStmt"      -> DzKLabel
+    "#symTaskProStmt"      -> DzKLabel
+    "isSymbolicK"      -> DzKLabel
+    "#symK"      -> DzKLabel
+    "isInt"      -> DzKLabel
+    "isSymbolicInt"      -> DzKLabel
+    "#symInt"      -> DzKLabel
+    "isStmt"      -> DzKLabel
+    "isSymbolicStmt"      -> DzKLabel
+    "#symStmt"      -> DzKLabel
+    "isEventProStmt"      -> DzKLabel
+    "isSymbolicEventProStmt"      -> DzKLabel
+    "#symEventProStmt"      -> DzKLabel
+    "isSignal"      -> DzKLabel
+    "isSymbolicSignal"      -> DzKLabel
+    "#symSignal"      -> DzKLabel
+    "isListId"      -> DzKLabel
+    "isSymbolicListId"      -> DzKLabel
+    "#symListId"      -> DzKLabel
+    "isResProperty"      -> DzKLabel
+    "isSymbolicResProperty"      -> DzKLabel
+    "#symResProperty"      -> DzKLabel
+    "isErrorType"      -> DzKLabel
+    "isSymbolicErrorType"      -> DzKLabel
+    "#symErrorType"      -> DzKLabel
+    "isChar"      -> DzKLabel
+    "isSymbolicChar"      -> DzKLabel
+    "#symChar"      -> DzKLabel
+    "isOSEKStmt"      -> DzKLabel
+    "isSymbolicOSEKStmt"      -> DzKLabel
+    "#symOSEKStmt"      -> DzKLabel
+    "isTCPAnswer"      -> DzKLabel
+    "isSymbolicTCPAnswer"      -> DzKLabel
+    "#symTCPAnswer"      -> DzKLabel
+    "is#Int"      -> DzKLabel
+    "isEventValue"      -> DzKLabel
+    "isSymbolicEventValue"      -> DzKLabel
+    "#symEventValue"      -> DzKLabel
+    "isPascalCaseId"      -> DzKLabel
+    "isSymbolicPascalCaseId"      -> DzKLabel
+    "#symPascalCaseId"      -> DzKLabel
+    "isTaskProStmts"      -> DzKLabel
+    "isSymbolicTaskProStmts"      -> DzKLabel
+    "#symTaskProStmts"      -> DzKLabel
+    "isUpperCase"      -> DzKLabel
+    "isSymbolicUpperCase"      -> DzKLabel
+    "#symUpperCase"      -> DzKLabel
+    "isBExp"      -> DzKLabel
+    "isSymbolicBExp"      -> DzKLabel
+    "#symBExp"      -> DzKLabel
+    "isModelCheckerState"      -> DzKLabel
+    "isSymbolicModelCheckerState"      -> DzKLabel
+    "#symModelCheckerState"      -> DzKLabel
+    "isTCPError"      -> DzKLabel
+    "isSymbolicTCPError"      -> DzKLabel
+    "#symTCPError"      -> DzKLabel
+    "isKResult"      -> DzKLabel
+    "isSymbolicKResult"      -> DzKLabel
+    "#symKResult"      -> DzKLabel
+    "isType"      -> DzKLabel
+    "isSymbolicType"      -> DzKLabel
+    "#symType"      -> DzKLabel
+    "isIOError"      -> DzKLabel
+    "isSymbolicIOError"      -> DzKLabel
+    "#symIOError"      -> DzKLabel
+    "isAlarmProperty"      -> DzKLabel
+    "isSymbolicAlarmProperty"      -> DzKLabel
+    "#symAlarmProperty"      -> DzKLabel
+    "isTaskPair"      -> DzKLabel
+    "isSymbolicTaskPair"      -> DzKLabel
+    "#symTaskPair"      -> DzKLabel
+    "isTaskState"      -> DzKLabel
+    "isSymbolicTaskState"      -> DzKLabel
+    "#symTaskState"      -> DzKLabel
+
+
+
+%% terminals reject
+    "K2String" -> VARID {reject}
+    "SETEVENT" -> VARID {reject}
+    "GetAlarmBase" -> VARID {reject}
+    "CALLBACK" -> VARID {reject}
+    "GetTaskState" -> VARID {reject}
+    "SetrelAlarm" -> VARID {reject}
+    "E_OS_STATE" -> VARID {reject}
+    "GetTaskID" -> VARID {reject}
+    "Base2String" -> VARID {reject}
+    "SET" -> VARID {reject}
+    "E_OS_NOFUNC" -> VARID {reject}
+    "Bag2String" -> VARID {reject}
+    "Infinity" -> VARID {reject}
+    "SMTCall" -> VARID {reject}
+    "E_OS_ID" -> VARID {reject}
+    "PRIORITY" -> VARID {reject}
+    "E_OS_ACCESS" -> VARID {reject}
+    "String2K" -> VARID {reject}
+    "DisableAllInterrupts" -> VARID {reject}
+    "MINICYCLE" -> VARID {reject}
+    "MAXALLOWEDVALUE" -> VARID {reject}
+    "SetRelAlarm" -> VARID {reject}
+    "E_OS_VALUE" -> VARID {reject}
+    "GetAlarm" -> VARID {reject}
+    "NaN" -> VARID {reject}
+    "ACTION" -> VARID {reject}
+    "Schedule" -> VARID {reject}
+    "E_OS_LIMIT" -> VARID {reject}
+    "ListItem" -> VARID {reject}
+    "SetAbsAlarm" -> VARID {reject}
+    "Float2String" -> VARID {reject}
+    "E_OS_RESOURCE" -> VARID {reject}
+    "K2Sort" -> VARID {reject}
+    "RESOURCEPROPERTY" -> VARID {reject}
+    "CYCLETIME" -> VARID {reject}
+    "ALARM" -> VARID {reject}
+    "LINKEDRESOURCE" -> VARID {reject}
+    "String2KLabel" -> VARID {reject}
+    "EVENT" -> VARID {reject}
+    "TerminateTask" -> VARID {reject}
+    "Vars2SMTLib" -> VARID {reject}
+    "TASK" -> VARID {reject}
+    "Int2String" -> VARID {reject}
+    "AUTO" -> VARID {reject}
+    "SetEvent" -> VARID {reject}
+    "Char2String" -> VARID {reject}
+    "ChainTask" -> VARID {reject}
+    "AUTOSTART" -> VARID {reject}
+    "ClearEvent" -> VARID {reject}
+    "SetabsAlarm" -> VARID {reject}
+    "Id2String" -> VARID {reject}
+    "Error" -> VARID {reject}
+    "WaitEvent" -> VARID {reject}
+    "API" -> VARID {reject}
+    "CLEAR" -> VARID {reject}
+    "E_OS_UNDEF" -> VARID {reject}
+    "ACTIVATETASK" -> VARID {reject}
+    "INTERNAL" -> VARID {reject}
+    "Int2Float" -> VARID {reject}
+    "COUNTER" -> VARID {reject}
+    "String2Base" -> VARID {reject}
+    "ReleaseResource" -> VARID {reject}
+    "KLabel2String" -> VARID {reject}
+    "STANDARD" -> VARID {reject}
+    "RESOURCE" -> VARID {reject}
+    "String2Bool" -> VARID {reject}
+    "FalseLtl" -> VARID {reject}
+    "DeclareAlarm" -> VARID {reject}
+    "DeclareEvent" -> VARID {reject}
+    "NON" -> VARID {reject}
+    "FULL" -> VARID {reject}
+    "MASK" -> VARID {reject}
+    "String2Bag" -> VARID {reject}
+    "TimeInterval" -> VARID {reject}
+    "String2Int" -> VARID {reject}
+    "ACTIVATE" -> VARID {reject}
+    "K2SMTLib" -> VARID {reject}
+    "Float2Int" -> VARID {reject}
+    "E_OS_CALLEVEL" -> VARID {reject}
+    "String2DotK" -> VARID {reject}
+    "DeclareResource" -> VARID {reject}
+    "String2Id" -> VARID {reject}
+    "DeclareTask" -> VARID {reject}
+    "String2Float" -> VARID {reject}
+    "SMTLibQuery" -> VARID {reject}
+    "ALARMTIME" -> VARID {reject}
+    "ACTIVATION" -> VARID {reject}
+    "GetResource" -> VARID {reject}
+    "SCHEDULE" -> VARID {reject}
+    "ActivateTask" -> VARID {reject}
+    "E_OS_CONF" -> VARID {reject}
+    "Consts2SMTLib" -> VARID {reject}
+    "String2Char" -> VARID {reject}
+    "CancelAlarm" -> VARID {reject}
+    "TrueLtl" -> VARID {reject}
+    "SetItem" -> VARID {reject}
+
+lexical restrictions
+    %% follow restrictions
+    "SET" -/- [E].[V].[E].[N].[T]
+    "==" -/- [I].[n].[t]
+    "*" -/- [F].[l].[o].[a].[t]
+    "=" -/- [K].[L].[a].[b].[e].[l]
+    "/" -/- [I].[n].[t]
+    "==" -/- [K]
+    "mi" -/- [M].[I].[n].[t]
+    "==" -/- [B].[a].[g]
+    "-" -/- [F].[l].[o].[a].[t]
+    "replace" -/- [A].[l].[l]
+    "AUTO" -/- [S].[T].[A].[R].[T]
+    "=/=K" -/- [L].[a].[b].[e].[l]
+    "=" -/- [K]
+    "#freshSym" -/- [N]
+    "eq" -/- [M].[I].[n].[t]
+    "=K" -/- [L].[a].[b].[e].[l]
+    "=" -/- [L].[i].[s].[t]
+    "==K" -/- [L].[a].[b].[e].[l]
+    "#freshSymSort" -/- [N]
+    "<=" -/- [S].[e].[t]
+    "#system" -/- [R].[e].[s].[u].[l].[t]
+    "=" -/- [B].[a].[g]
+    "+" -/- [I].[n].[t]
+    "=" -/- [K].[L].[i].[s].[t]
+    "-" -/- [I].[n].[t]
+    "%" -/- [I].[n].[t]
+    "#parse" -/- [I].[n].[p].[u].[t]
+    "#parse" -/- [T].[o].[k].[e].[n]
+    "+" -/- [S].[t].[r].[i].[n].[g]
+    "=" -/- [I].[n].[t]
+    "." -/- [S].[e].[t]
+    "==" -/- [S].[t].[r].[i].[n].[g]
+    "<=" -/- [I].[n].[t]
+    "-" -/- [S].[e].[t]
+    "=/=K" -/- [L].[i].[s].[t]
+    "<" -/- [I].[n].[t]
+    "=K" -/- [L].[i].[s].[t]
+    "#token" -/- [T].[o].[S].[t].[r].[i].[n].[g]
+    "=" -/- [S].[e].[t]
+    "|" -/- [I].[n].[t]
+    "==" -/- [B].[o].[o].[l]
+    "-" -/- [M].[a].[p]
+    "String2K" -/- [L].[a].[b].[e].[l]
+    ">" -/- [I].[n].[t]
+    "==K" -/- [L].[i].[s].[t]
+    "count" -/- [A].[l].[l].[O].[c].[c].[u].[r].[e].[n].[c].[e].[s]
+    "in" -/- [K].[L].[i].[s].[t]
+    "==" -/- [K].[L].[i].[s].[t]
+    "fresh" -/- [I].[d]
+    "." -/- [M].[a].[p]
+    "<=" -/- [S].[t].[r].[i].[n].[g]
+    "%" -/- [F].[l].[o].[a].[t]
+    "#system" -/- [T].[y].[p].[e].[s]
+    "*" -/- [I].[n].[t]
+    "remove" -/- [A].[l].[l]
+    "wait" -/- [E].[v].[e].[n].[t]
+    "#freshSym" -/- [S].[o].[r].[t].[N]
+    "==" -/- [F].[l].[o].[a].[t]
+    ">" -/- [F].[l].[o].[a].[t]
+    "." -/- [L].[i].[s].[t]
+    "+" -/- [F].[l].[o].[a].[t]
+    "ACTIVATE" -/- [T].[A].[S].[K]
+    "fresh" -/- [I].[n].[t]
+    "<" -/- [S].[t].[r].[i].[n].[g]
+    "<=" -/- [M].[a].[p]
+    "==" -/- [K].[L].[a].[b].[e].[l]
+    "#parse" -/- [I].[n].[M].[o].[d].[u].[l].[e]
+    "replace" -/- [F].[i].[r].[s].[t]
+    ">" -/- [S].[t].[r].[i].[n].[g]
+    "GetAlarm" -/- [B].[a].[s].[e]
+    "<" -/- [F].[l].[o].[a].[t]
+    "ALARM" -/- [T].[I].[M].[E]
+    "#stat" -/- [T].[y].[p].[e].[s]
+    "RESOURCE" -/- [P].[R].[O].[P].[E].[R].[T].[Y]
+    "add" -/- [M].[I].[n].[t]
+    "#freshSym" -/- [S].[o].[r].[t]
+    "<=" -/- [F].[l].[o].[a].[t]
+    "/" -/- [F].[l].[o].[a].[t]
+    "=" -/- [M].[a].[p]
+lexical restrictions
+%% some restrictions to ensure greedy matching for user defined constants
+    "is" -/- [\#A-Z]
+
+lexical syntax
+    [\-\+]? [0-9]+ -> DzIntDz
+    [\+\-]?[0-9]+"."[0-9]+([eE][\+\-]?[0-9]+)?([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    [\+\-]?"Infinity"([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    "Infinity" -> DzFloatDz {reject}
+    "NaN"([fFdD]|([pP][0-9]+[xX][0-9]+))? -> DzFloatDz
+    "NaN" -> DzFloatDz {reject}
+    "\"" ((~[\"\n\r\\]) | (((([\\][nrtf\"\\]) | ([\\][x][0-9a-fA-F][0-9a-fA-F])) | ([\\][u][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])) | ([\\][U][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])))* "\"" -> DzStringDz
+context-free syntax
+    DzStringDz -> DzString {cons("DzString1Const")}
+    DzIntDz -> DzInt {cons("DzInt1Const")}
+    DzFloatDz -> DzFloat {cons("DzFloat1Const")}
+
+
+context-free restrictions
+    "#" -/- [s].[y].[m]
+    DzInt -/-  [0-9]
