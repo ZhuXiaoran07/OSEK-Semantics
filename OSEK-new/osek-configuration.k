@@ -155,6 +155,11 @@ module OSEK-CONFIGURATION
 			  <maskType> .K </maskType> 
 			  </event>    
 		    </events> 
+		    
+		    <interrupt>
+		    <susAllCount>0</susAllCount>
+		    <susOSCount>0</susOSCount>
+		    </interrupt>
 			
   		</OSEK> 
   
