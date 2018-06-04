@@ -29,6 +29,7 @@ module OSEK-CONFIGURATION
 	       | "WaitEvent"
 	       | "SetEvent" 
 	       | "ClearEvent"
+		   | "GetEvent"
 	       | "SetrelAlarm"
 	       | "SetabsAlarm"
 	       | "GetAlarm"

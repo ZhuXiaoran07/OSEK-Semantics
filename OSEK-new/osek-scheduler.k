@@ -70,7 +70,8 @@ module OSEK-SCHEDULING
        <runningTask> I' </runningTask> <br/>
        when N' >=Int N [transition]
 
-
+  rule <signal> SetItem(schedule) => .Set </signal> 
+       <readyTasks> .ListTaskPair </readyTasks> 
 
       /* rule <signal> SetItem(schedule) => .Set </signal> 
        <readyTasks> (< I ; N >  L:ListTaskPair) => L </readyTasks> <br/>

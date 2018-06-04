@@ -21,7 +21,7 @@ TASK EMS_Adap_Task_10ms{
 
 TASK EMS_Task_10ms{
   
-  PRIORITY = 3; 
+  PRIORITY = 2; 
   AUTOSTART = false; 
   SCHEDULE = NON; 
   EVENT = Adap_Event;
@@ -31,7 +31,7 @@ TASK EMS_Task_10ms{
 
 TASK EMS_Task_100ms{
   
-  PRIORITY = 2; 
+  PRIORITY = 3; 
   AUTOSTART = false; 
   SCHEDULE = NON; 
   EVENT = Adap_Event;

@@ -22,6 +22,10 @@ rule <task><state>running</state><k>DeclareResource(T);=>. ...</k>...</task>
 
 rule <task><state>running</state><k>DeclareResource(T);=>. ...</k>...</task>
 <resource><rid>T</rid>...</resource>
+<signal> .Set </signal>
+
+rule <task><state>running</state><k>DeclareResource(T);=>. ...</k>...</task>
+<resource><rid>T</rid>...</resource>
 <signal> .Set=>SetItem(stop) </signal>
 <alarm> <aid> A </aid> <aSysCounter> C</aSysCounter> <alarmTime>AT</alarmTime> ...</alarm><br/>
 <sysCounter> <cid> C </cid> <currentValue> RV=>(RV+Int 1)%Int (MAV +Int 1) </currentValue> <maxAllowedValue> MAV </maxAllowedValue> ...</sysCounter>
@@ -47,7 +51,19 @@ rule <task><state>running</state><k>DeclareResource(T);=>. ...</k>...</task>
        //<tcgMode> B </tcgMode> 
        [transition]
 
-
+rule <task> <tid> I </tid> <state> running </state> <k> (GetResource(R);)  => . ...</k> 
+             <tPriority> N' => (#if N' <Int N2 #then N2 #else N' #fi) </tPriority>
+       <accRes>  (.List => ListItem(R)) _ </accRes> <apiData> ST </apiData> 
+         //<historyK> (L' => #if B andBool ST ==K . #then L' ListItem(GetResource(R);) #else L' #fi) </historyK> 
+  ... </task> 
+  //<proId> I </proId>
+       <resource> <rid> R </rid>  
+            <rPriority> N2 </rPriority>  
+      <rOwner> L </rOwner> 
+      (.Bag => <tPri> N' </tPri>)
+      (.Bag => <rTid> I </rTid>) ...
+       </resource> 
+       <signal> . </signal>
 
 
   rule <task> <tid> I </tid> <state> running </state> <k> (GetResource(R);)  => . ...</k> 
@@ -132,6 +148,15 @@ rule <task><state>running</state><k>DeclareResource(T);=>. ...</k>...</task>
         <alarmList> .List </alarmList>
        <signal> .Set=>SetItem(schedule) </signal> [transition]
 
+	   
+	   rule <task> <tid> I </tid> <state> running </state> <k> ReleaseResource(R); => . ... </k> 
+              <tPriority> N' => N </tPriority> <apiData> ST </apiData> 
+       //  <historyK> (L => #if B andBool ST ==K . #then L ListItem(ReleaseResource(R);) #else L #fi) </historyK> 
+        <accRes> (ListItem(R) => .List) L1 </accRes>   ... </task> 
+       <resource> <rid> R </rid> ( <rTid> I </rTid> => .) (<tPri> N </tPri> => .)  ... </resource>
+	   <signal> .Set=>SetItem(schedule) </signal> [transition]
+	   
+	   
 
   rule <task> <tid> I </tid> <state> running </state> <k> ReleaseResource(R); => . ... </k> 
        	      <tPriority> N' => N </tPriority> <apiData> ST </apiData> 

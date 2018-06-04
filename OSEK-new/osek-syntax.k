@@ -8,11 +8,14 @@
    Part of the definition is from the K tutorial. 
    It also declares the syntax of OIL (OSEK Implementation language)
  */
-require "builtins/model-checker.k" 
+
+
+//require "builtins/model-checker.k" 
 
 module OSEK-SYNTAX 
 //imports LTL-HOOKS
-imports MODEL-CHECKER-HOOKS
+//imports MODEL-CHECKER-HOOKS
+
   
   // IMP 
   syntax AExp  ::= Int | Id
@@ -55,6 +58,7 @@ imports MODEL-CHECKER-HOOKS
                   | "ClearEvent" "(" Id ")" ";"
                   | "SetEvent" "(" Id "," Id ")" ";"
                   | "WaitEvent" "(" ListId ")" ";"
+				  | "GetEvent" "(" Id "," Id ")" ";"
                   | "GetResource" "(" Id ")"  ";"
                   | "ReleaseResource" "(" Id ")" ";"
 				  | "DeclareTask" "(" Id ")" ";"
@@ -163,25 +167,10 @@ imports MODEL-CHECKER-HOOKS
 		   | APIStmt 
 		   > OSEKStmt OSEKStmt [right]
 
-   syntax OSEK ::= OSEKStmt | LtlFormula
+   syntax OSEK ::= OSEKStmt //| LtlFormula
 
   // syntax OSEK ::= LtlFormula
-syntax Prop ::= "eq" "(" Id "," Int ")"
-              | "countvalue" "(" Int ")"
-              | "taskstate" "(" Id ")"
-              | "succession" "(" TaskState "," Id ")"
-              | "wait" "(" Id "," Id ")"
-              | "set" "(" Id "," Id ")"
 
-
-
-
-//syntax Int ::= "val" "(" Bag "," Id ")"  [function]
- syntax Int ::= "count" "(" Bag ")"     [function]
- syntax Id ::= "state" "(" Bag ")" [function]
- syntax Id ::= "API" "(" Bag "," Id ")" [function]
- syntax Id ::= "event" "(" Bag "," Id ")" [function]
- syntax TaskState::="states" "(" Bag "," Id ")" [function]
  //syntax KItem
 
 

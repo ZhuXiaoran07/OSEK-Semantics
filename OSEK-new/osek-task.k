@@ -183,11 +183,18 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
  when ((RV +Int 1) ==Int AT) andBool (N1=/=Int 0) andBool (A in L)[transition] 
 
 
+ rule <task> <tid> I </tid> <state> running => suspend </state> <tPriority> N </tPriority>
+           <k> TerminateTask(); => . </k>  <activatedTime> N1 </activatedTime>
+<accRes> .List </accRes> ... 
+</task> 
+<runningTask> I => . </runningTask>
+        <signal> .Set => SetItem(schedule) </signal>
+ 
+ 
 
    // if TerminateTask() is not the last API in the task 
    rule <task> <tid> I </tid> <state> running </state> 
    	       (<k> TerminateTask(); A:OSEKStmt  </k> )  ... </task>	
-
 	<runningTask> I => . </runningTask>
         <signal> .Set => SetItem(stop) </signal> <br/>
 	(.Bag => <errorCell> Error(E_OS_UNDEF, I, TerminateTask();,"TerminateTask() is not the last API in task " +String Id2String(I)) </errorCell> )
@@ -223,7 +230,7 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
 
 
       rule <task> <tid> I </tid> <state> running => suspend </state> 
-           (<k> ChainTask(T); => . </k> ) 
+           (<k> ChainTask(T); => . ...</k> ) 
          <accRes> .List </accRes> 
          <apiData> A:OSEKStmt ... </apiData> ... </task>  
         <task> <tid> T </tid> <tPriority> N </tPriority> 
@@ -237,8 +244,20 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
    [transition]
    
 
+   rule <task> <tid> I </tid> <state> running => suspend </state> 
+           <k> ChainTask(T); => . ...</k>
+        <accRes> .List </accRes> ... 
+       </task>  
+        <task> <tid> T </tid> <tPriority> N </tPriority> 
+         <state> suspend => ready </state>...
+           </task> <br/>
+  <runningTask> I => . </runningTask>
+        <signal> . => SetItem(schedule)  </signal>
+		<readyTasks> RT:ListTaskPair => add(T, N, RT) </readyTasks> 
+   
+   
       rule <task> <tid> I </tid> <state> running => suspend </state> 
-           <k> ChainTask(T); => . </k>
+           <k> ChainTask(T); => . ...</k>
         <accRes> .List </accRes> ... 
        </task>  
         <task> <tid> T </tid> <tPriority> N </tPriority> 
@@ -254,7 +273,7 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
 
     
    rule <task> <tid> I </tid> <state> running => suspend </state> 
-   	       (<k> ChainTask(T); => . </k> ) <activatedTime> N1 </activatedTime>
+   	       (<k> ChainTask(T); => . ...</k> ) <activatedTime> N1 </activatedTime>
 	      <accRes> .List </accRes> ... 
        </task>	
         <task> <tid> T </tid> <tPriority> N </tPriority> 
@@ -288,7 +307,7 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
    when ((RV +Int 1) ==Int AT) andBool (N1==Int 0)andBool (A in L)[transition]
 
      rule <task>  <state> running => suspend </state> 
-           (<k> ChainTask(T); => . </k> ) <activatedTime> N1 </activatedTime>
+           (<k> ChainTask(T); => . ...</k> ) <activatedTime> N1 </activatedTime>
          <accRes> .List </accRes> ... 
        </task>  
         <task> <tid> T </tid> <tPriority> N </tPriority> 
@@ -305,7 +324,7 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
 
 
      rule <task> <tid> I </tid> <state> running => suspend </state>
-           (<k> ChainTask(T); => . </k> ) <activatedTime> N1 </activatedTime>
+           (<k> ChainTask(T); => . ...</k> ) <activatedTime> N1 </activatedTime>
          <accRes> .List </accRes> ... 
        </task>  
         <task> <tid> T </tid> <tPriority> N </tPriority> 
@@ -450,6 +469,30 @@ rule <task> <tid> I </tid> <state> running => suspend </state>
 	<readyTasks> L:ListTaskPair => add(T,N,L) </readyTasks> 
   [transition]
 
+  
+    rule <task> <state> running </state> <schedule> FULL </schedule> <k> (ActivateTask(T);) => . ... </k> 
+	       <tPriority> N' </tPriority> <apiData> ST </apiData> ...
+	     //  <accRes> .List </accRes> ... 
+       </task>	<br/>
+   	<task> <tid> T </tid> <state> suspend => ready </state> <tPriority> N </tPriority> 
+	       <k> .K => AS </k> <apiData> AS </apiData> ... </task> 
+        <signal> .Set => (#if N' <Int N #then SetItem(schedule) #else .Set #fi) </signal> 
+	<readyTasks> L => add(T,N,L) </readyTasks> 
+  [transition]
+  
+  
+    rule <task> <state> running </state> <schedule> FULL </schedule> <k> (ActivateTask(T);) => . ... </k> 
+	       <tPriority> N' </tPriority> <apiData> ST </apiData> 
+	        ... 
+       </task>	<br/>
+   	<task> <tid> T </tid> <state> ready </state> <tPriority> N </tPriority> 
+           <activationTime> N2 </activationTime> 
+           <activatedTime> N1 => N1 +Int 1 </activatedTime>		   ... </task> 
+      requires N2 >Int N1
+  [transition]
+  
+  
+  
 
     rule <task> <state> running </state> <schedule> FULL </schedule> <k> (ActivateTask(T);) => . ... </k> 
          <tPriority> N' </tPriority> <apiData> ST </apiData> 
@@ -626,13 +669,22 @@ rule <task> <state> running </state> <k> ActivateTask(T); => . ... </k>
        Parameter: none\\
        Result:    If a task with higher-priority is ready, the current task is put into ready task and the internal resource of the task is released. The higher-priority task are executed in the order of priority.\\
        Condition: The running task is non preemptable.*/
-
+      
+	   rule <signal> .Set => SetItem(schedule) </signal> <schedule> NON </schedule>
+       <task> <state> running  </state> 
+              <accRes> .List </accRes>
+              <k> Schedule();=> . ...</k>... </task>
+			  
+	      rule <signal> .Set  </signal> <schedule> FULL </schedule>
+       <task> <state> running  </state> 
+              <accRes> .List </accRes>
+              <k> Schedule();=> . ...</k>... </task>
 
        rule <signal> .Set => SetItem(schedule) </signal> 
        <task> <schedule> NON </schedule>
               <state> running  </state> 
               <accRes> .List </accRes>
-              <k> Schedule();=> . </k>... </task> <br/>
+              <k> Schedule();=> . ...</k>... </task> <br/>
         <sysCounter> <cid> C </cid> <currentValue> RV=>(RV+Int 1)%Int (MAV +Int 1) </currentValue> <maxAllowedValue> MAV </maxAllowedValue> ...</sysCounter>
         <alarmList> .List </alarmList>[transition]
 

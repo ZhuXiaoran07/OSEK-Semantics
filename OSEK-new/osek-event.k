@@ -110,8 +110,6 @@ rule <task> <state> running </state>
 
    rule <task> <state> running </state> 
    	       <k> (SetEvent(I, E);) => . ... </k> 
-         //  <apiData> ST </apiData> 
-	      // <historyK> (L1 => #if B andBool ST ==K . #then ListItem(SetEvent(I,E);) #else L1 #fi) </historyK> 
       ... 
 	</task> <br/> 
         <task> <tid> I </tid> <waitEvents> L </waitEvents>
@@ -175,16 +173,41 @@ rule <task> <state> running </state>
   <alarmList> L' </alarmList>
    when notBool (E in L) andBool ((RV +Int 1) ==Int AT) andBool (A in L') [transition] 
 
-   /*rule <task> <state> running </state> <tid> T </tid> 
-   	       <k> (SetEvent(I, E);) ... </k> <apiData> ST </apiData> 
-	      // <historyK> (L1 => #if B andBool ST ==K . #then ListItem(SetEvent(I,E);) #else L1 #fi) </historyK> ... 
-	       </task> <br/> 
-	<types> M </types> 
-        <signal> .Set => add(stop, .Set) </signal>
-        (. => <errorCell> Error(E_OS_ID, T, SetEvent(I,E);, "Invalid task " +String Id2String(I)) </errorCell>)
-	// <tcgMode> B </tcgMode> 
-	//when notBool $hasMapping(M,I) orBool (M(I) =/=K task)  [transition]*/
-
+  rule <task> <state> running </state> 
+           <k> (SetEvent(I, E);) => . ... </k> 
+          ... </task> <br/> 
+        <task> <tid> I </tid> <ext> true </ext>
+        <waitEvents> L </waitEvents>
+         <taskEvents> ... .Map=>(E |-> SET) ...  </taskEvents>   
+	   ... </task>   
+        when notBool (E in L)
+		
+rule <task> <state> running </state> 
+           <k> (SetEvent(I, E);) => . ... </k> 
+            <tid> I </tid> 
+        <waitEvents> .List </waitEvents>
+		<taskEvents> ... .Map=>(E |-> SET) ...  </taskEvents>  
+          ... </task> 
+        		  
+      //  when notBool (E in L)
+   
+   rule <task> <state> running </state> 
+           <k> (SetEvent(I, E);)  => . ... </k> 
+           <apiData> ST </apiData>... </task> <br/>
+        <task> <tid> I </tid> <state> waiting => ready </state>
+         <waitEvents> L => .List </waitEvents>
+         <taskEvents> ... (E |-> (CLEAR => SET)) ...  </taskEvents>   
+         <tPriority> N </tPriority> 
+         ... 
+         </task> <br/> 
+   <readyTasks> L' => add(I,N,L') </readyTasks> 
+   <signal> .Set => SetItem(schedule) </signal>
+    when (E in L)  [transition]
+   
+   rule <task> <state> running </state> 
+   	       <k> (ClearEvent(E);)  => . ... </k>
+	       <taskEvents> ... E |-> (_ => CLEAR) ...</taskEvents> ... </task> 
+   
    rule <task> <state> running </state> <tid> T </tid> 
    	       <k> (SetEvent(I, E);) ... </k>  <apiData> ST </apiData> 
    	     //  <historyK> (L1 => #if B andBool ST ==K .  #then L1 ListItem(SetEvent(I,E);) #else L1 #fi) </historyK> ... 	       	       
@@ -371,7 +394,29 @@ rule <task> <state> running => waiting </state>
 <alarmList> L' </alarmList>
 when ((RV +Int 1) ==Int AT) andBool (A in L') [transition]  
 
+rule <task> <k> waitEvent(E) => . ...</k> <state> running => waiting </state> 
+           <taskEvents> (E |-> CLEAR)_ </taskEvents> 
+		 //  <accRes> .List </accRes>
+         <waitEvents> .List=>ListItem(E)  </waitEvents> 
+         ... </task> 
+         <signal> .Set => SetItem(schedule) </signal>
+  <runningTask> _ => .K </runningTask>
 
+
+rule <task> <state> running => waiting </state> 
+           <k> (waitEvent(.ListId)) => . ... </k> 
+		   <accRes> .List </accRes>
+  ... </task> <signal> .Set => SetItem(schedule) </signal>
+  <runningTask> _ => .K </runningTask>
+
+/*rule <k> GetEvent(T:Task, I:Id); => . ...</k>
+     <event>...
+	 <eid> E:Id </eid>
+     <maskType> N </maskType>
+	 <eOwner> ...ListItem(T)... </eOwner>
+	 ...</event>
+	 <env> ... I|-> (_=>N) ...</env>
+*/
    // errors  if E is not owned by I 
    rule <task> <state> running </state> <tid> I </tid> 
    	       <k> waitEvent(E | EL)  ... </k> 
